@@ -12,10 +12,24 @@ TV.SVGInterface.prototype.RegisterEvents = function (events)
 	this.svg.addEventListener ('mousedown', this.OnMouseDown.bind (this), false);
 	document.addEventListener ('mouseup', this.OnMouseUp.bind (this), false);
 	document.addEventListener ('mousemove', this.OnMouseMove.bind (this), false);
+	this.svg.addEventListener ('DOMMouseScroll', this.OnMouseWheel.bind (this), false);
+	this.svg.addEventListener ('mousewheel', this.OnMouseWheel.bind (this), false);
 };
 
-TV.SVGInterface.prototype.UpdateNode = function (node, offset)
+TV.SVGInterface.prototype.UpdateNode = function (node, offset, scale)
 {
+	function GetValue (original, offset, scale)
+	{
+		var result = original;
+		if (scale !== null) {
+			result *= scale;
+		}
+		if (offset !== null) {
+			result += offset;
+		}
+		return parseInt (result, 10);
+	}
+	
 	var nodeId = node.GetId ();
 	var svgNode = this.svgNodes[nodeId];
 	if (svgNode === undefined || svgNode === null) {
@@ -26,27 +40,28 @@ TV.SVGInterface.prototype.UpdateNode = function (node, offset)
 	var position = node.GetPosition ();
 	var size = node.GetSize ();
 	
-	svgNode.rect.setAttributeNS (null, 'x', parseInt (position.x + offset.x, 10));
-	svgNode.rect.setAttributeNS (null, 'y', parseInt (position.y + offset.y, 10));
-	svgNode.rect.setAttributeNS (null, 'width', parseInt (size.x, 10));
-	svgNode.rect.setAttributeNS (null, 'height', parseInt (size.y, 10));
-	svgNode.rect.setAttributeNS (null, 'class', className);
-	
-	var textBox = svgNode.text.getBBox ();
-	var textX = position.x + size.x / 2;
-	var textY = position.y + (size.y + textBox.height / 2) / 2;
-	svgNode.text.setAttributeNS (null, 'x', parseInt (textX + offset.x, 10));
-	svgNode.text.setAttributeNS (null, 'y', parseInt (textY + offset.y, 10));
-	svgNode.text.setAttributeNS (null, 'class', className);
-
 	if (node.HasParent ()) {
 		var start = node.GetParent ().GetRightAnchor ();
 		var end = node.GetLeftAnchor ();
-		svgNode.line.setAttributeNS (null, 'x1', parseInt (start.x + offset.x, 10));
-		svgNode.line.setAttributeNS (null, 'y1', parseInt (start.y + offset.y, 10));
-		svgNode.line.setAttributeNS (null, 'x2', parseInt (end.x + offset.x, 10));
-		svgNode.line.setAttributeNS (null, 'y2', parseInt (end.y + offset.y, 10));
+		svgNode.line.setAttributeNS (null, 'x1', GetValue (start.x, offset.x, scale));
+		svgNode.line.setAttributeNS (null, 'y1', GetValue (start.y, offset.y, scale));
+		svgNode.line.setAttributeNS (null, 'x2', GetValue (end.x, offset.x, scale));
+		svgNode.line.setAttributeNS (null, 'y2', GetValue (end.y, offset.y, scale));
 	}
+
+	svgNode.rect.setAttributeNS (null, 'x', GetValue (position.x, offset.x, scale));
+	svgNode.rect.setAttributeNS (null, 'y', GetValue (position.y, offset.y, scale));
+	svgNode.rect.setAttributeNS (null, 'width', GetValue (size.x, null, scale));
+	svgNode.rect.setAttributeNS (null, 'height', GetValue (size.y, null, scale));
+	svgNode.rect.setAttributeNS (null, 'class', className);
+	
+	svgNode.text.setAttributeNS (null, 'font-size', GetValue (15, null, scale));
+	var textBox = svgNode.text.getBBox ();
+	var textX = position.x + size.x / 2;
+	var textY = position.y + (size.y + textBox.height / 2) / 2;
+	svgNode.text.setAttributeNS (null, 'x', GetValue (textX, offset.x, scale));
+	svgNode.text.setAttributeNS (null, 'y', GetValue (textY, offset.y, scale));
+	svgNode.text.setAttributeNS (null, 'class', className);
 };
 
 TV.SVGInterface.prototype.CreateNode = function (node)
@@ -129,4 +144,16 @@ TV.SVGInterface.prototype.OnMouseMove = function (event)
 {
 	var eventParameters = event || window.event;
 	this.events.onMouseMove (event.clientX, event.clientY);
+};
+
+TV.SVGInterface.prototype.OnMouseWheel = function (event)
+{
+	var eventParameters = event || window.event;
+	var delta = 0;
+	if (eventParameters.detail) {
+		delta = -eventParameters.detail;
+	} else if (eventParameters.wheelDelta) {
+		delta = eventParameters.wheelDelta / 40;
+	}
+	this.events.onMouseWheel (delta);
 };

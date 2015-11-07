@@ -5,10 +5,12 @@ TV.TreeViewer = function (drawInterface)
 		onNodeClick : this.OnNodeClick.bind (this),
 		onMouseDown : this.OnMouseDown.bind (this),
 		onMouseUp : this.OnMouseUp.bind (this),
-		onMouseMove : this.OnMouseMove.bind (this)
+		onMouseMove : this.OnMouseMove.bind (this),
+		onMouseWheel : this.OnMouseWheel.bind (this)
 	});
 	
 	this.offset = new TV.Point (50, 200);
+	this.scale = 1.0;
 	this.layout = new TV.TreeLayout ();
 	this.mouse = null;
 };
@@ -29,8 +31,9 @@ TV.TreeViewer.prototype.Update = function ()
 {
 	var drawInterface = this.drawInterface;
 	var offset = this.offset;
+	var scale = this.scale;
 	this.layout.EnumerateNodes (function (node) {
-		drawInterface.UpdateNode (node, offset);
+		drawInterface.UpdateNode (node, offset, scale);
 	});
 };
 
@@ -62,4 +65,14 @@ TV.TreeViewer.prototype.OnMouseMove = function (x, y)
 		this.mouse.Set (x, y);
 		this.Update ();
 	}
+};
+
+TV.TreeViewer.prototype.OnMouseWheel = function (delta)
+{
+	if (delta > 0) {
+		this.scale *= 1.1;
+	} else {
+		this.scale *= 0.9;
+	}
+	this.Update ();
 };
