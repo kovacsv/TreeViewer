@@ -58,7 +58,7 @@ TV.SVGInterface.prototype.UpdateNode = function (node, offset, scale)
 	svgNode.text.setAttributeNS (null, 'font-size', GetValue (15, null, scale));
 	var textBox = svgNode.text.getBBox ();
 	var textX = position.x + size.x / 2;
-	var textY = position.y + (size.y + textBox.height / 2) / 2;
+	var textY = position.y + size.y / 2;
 	svgNode.text.setAttributeNS (null, 'x', GetValue (textX, offset.x, scale));
 	svgNode.text.setAttributeNS (null, 'y', GetValue (textY, offset.y, scale));
 	svgNode.text.setAttributeNS (null, 'class', className);
@@ -91,6 +91,7 @@ TV.SVGInterface.prototype.CreateNode = function (node)
 	svgNode.text.setAttributeNS (null, 'font-family', 'arial, cursive');
 	svgNode.text.setAttributeNS (null, 'text-anchor', 'middle');
 	svgNode.text.setAttributeNS (null, 'alignment-baseline', 'middle');
+	svgNode.text.setAttributeNS (null, 'dominant-baseline', 'central');
 	svgNode.text.textContent = node.GetText ();
 	this.svg.appendChild (svgNode.text);
 	

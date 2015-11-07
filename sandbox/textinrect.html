@@ -7,12 +7,13 @@
 	<meta http-equiv="content-type" content="text/html;charset=utf-8">
 	<title>Example</title>
 	<script type="text/javascript">
-		function GetTextPosition (text, rectX, rectY, rectWidth, rectHeight)
+		function GetTextPosition (textBox, rectX, rectY, rectWidth, rectHeight)
 		{
-			var textBox = text.getBBox ();
+			var x = rectX + rectWidth / 2;
+			var y = rectY + rectHeight / 2;
 			return {
-				x : rectX + rectWidth / 2,
-				y : rectY + rectHeight
+				x : x,
+				y : y
 			};
 		}
 
@@ -38,11 +39,24 @@
 			text.setAttributeNS (null, 'font-size', fontSize + 'px');
 			text.setAttributeNS (null, 'font-family', 'arial, cursive');
 			text.setAttributeNS (null, 'text-anchor', 'middle');
+			text.setAttributeNS (null, 'dominant-baseline', 'central');
 			text.textContent = 'my text';
 			
-			var textPosition = GetTextPosition (text, rectX, rectY, rectWidth, rectHeight);
+			var textBox = text.getBBox ();
+			var textPosition = GetTextPosition (textBox, rectX, rectY, rectWidth, rectHeight);
 			text.setAttributeNS (null, 'x', textPosition.x);
-			text.setAttributeNS (null, 'y', textPosition.y);			
+			text.setAttributeNS (null, 'y', textPosition.y);
+
+			var textRect = document.createElementNS (svgNamespace, 'rect');
+			svg.appendChild (textRect);
+
+			textRect.setAttributeNS (null, 'stroke', 'blue');
+			textRect.setAttributeNS (null, 'fill', 'none');
+
+			textRect.setAttributeNS (null, 'x', textPosition.x + textBox.x);
+			textRect.setAttributeNS (null, 'y', textPosition.y + textBox.y);
+			textRect.setAttributeNS (null, 'width', textBox.width);
+			textRect.setAttributeNS (null, 'height', textBox.height);
 		}
 	
 		function Load ()
@@ -60,6 +74,8 @@
 			DrawTextInRect (svg, 270, 10, 120, 150, 10);
 			DrawTextInRect (svg, 400, 10, 120, 150, 20);
 			DrawTextInRect (svg, 530, 10, 120, 150, 30);
+
+			DrawTextInRect (svg, 10, 220, 400, 200, 100);
 		}
 	
 	    window.onload = function ()
@@ -71,7 +87,7 @@
 </head>
 
 <body>
-	<svg id="example" xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="400" transform="translate(0.5,0.5)">
+	<svg id="example" xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="600" transform="translate(0.5,0.5)">
 	</svg>
 </body>
 
