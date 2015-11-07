@@ -82,6 +82,7 @@ TV.SVGInterface.prototype.CreateNode = function (node)
 	}
 
 	svgNode.rect = document.createElementNS (svgNamespace, 'rect');
+	svgNode.rect.setAttributeNS (null, 'shape-rendering', 'crispEdges');
 	this.svg.appendChild (svgNode.rect);
 	
 	svgNode.text = document.createElementNS (svgNamespace, 'text');
