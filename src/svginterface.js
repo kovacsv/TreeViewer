@@ -134,21 +134,24 @@ TV.SVGInterface.prototype.OnMouseDown = function (event)
 {
 	var eventParameters = event || window.event;
 	eventParameters.preventDefault ();
-	this.events.onMouseDown (event.clientX, event.clientY);
+	var mousePosition = this.CalcMousePosition (eventParameters.clientX, eventParameters.clientY);
+	this.events.onMouseDown (mousePosition.x, mousePosition.y);
 };
 
 TV.SVGInterface.prototype.OnMouseUp = function (event)
 {
 	var eventParameters = event || window.event;
 	eventParameters.preventDefault ();
-	this.events.onMouseUp (event.clientX, event.clientY);
+	var mousePosition = this.CalcMousePosition (eventParameters.clientX, eventParameters.clientY);
+	this.events.onMouseUp (mousePosition.x, mousePosition.y);
 };
 
 TV.SVGInterface.prototype.OnMouseMove = function (event)
 {
 	var eventParameters = event || window.event;
 	eventParameters.preventDefault ();
-	this.events.onMouseMove (event.clientX, event.clientY);
+	var mousePosition = this.CalcMousePosition (eventParameters.clientX, eventParameters.clientY);
+	this.events.onMouseMove (mousePosition.x, mousePosition.y);
 };
 
 TV.SVGInterface.prototype.OnMouseWheel = function (event)
@@ -161,5 +164,15 @@ TV.SVGInterface.prototype.OnMouseWheel = function (event)
 	} else if (eventParameters.wheelDelta) {
 		delta = eventParameters.wheelDelta / 40;
 	}
-	this.events.onMouseWheel (delta);
+	var mousePosition = this.CalcMousePosition (eventParameters.clientX, eventParameters.clientY);
+	this.events.onMouseWheel (mousePosition.x, mousePosition.y, delta);
+};
+
+TV.SVGInterface.prototype.CalcMousePosition = function (origX, origY)
+{
+	var boundingRect = this.svg.getBoundingClientRect ();
+	return new TV.Point (
+		origX - boundingRect.x,
+		origY - boundingRect.y
+	);
 };

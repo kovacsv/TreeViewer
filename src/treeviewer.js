@@ -67,13 +67,20 @@ TV.TreeViewer.prototype.OnMouseMove = function (x, y)
 	}
 };
 
-TV.TreeViewer.prototype.OnMouseWheel = function (delta)
+TV.TreeViewer.prototype.OnMouseWheel = function (x, y, delta)
 {
-	// TODO: scale should modify offset, too
+	var oldScale = this.scale;
+	var origX = (x - this.offset.x) / this.scale;
+	var origY = (y - this.offset.y) / this.scale;
+	
 	if (delta > 0) {
 		this.scale *= 1.1;
 	} else {
 		this.scale *= 0.9;
 	}
+	
+	this.offset.x += origX * (oldScale - this.scale);
+	this.offset.y += origY * (oldScale - this.scale);
+	
 	this.Update ();
 };
