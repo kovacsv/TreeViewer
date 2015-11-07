@@ -80,20 +80,14 @@ TV.SVGInterface.prototype.CreateNode = function (node)
 	var svgNamespace = 'http://www.w3.org/2000/svg';
 	if (node.HasParent ()) {
 		svgNode.line = document.createElementNS (svgNamespace, 'line');
-		svgNode.line.setAttributeNS (null, 'stroke', 'black');
 		this.svg.appendChild (svgNode.line);
 	}
 
 	svgNode.rect = document.createElementNS (svgNamespace, 'rect');
-	svgNode.rect.setAttributeNS (null, 'stroke', 'black');
-	svgNode.rect.setAttributeNS (null, 'fill', 'white');
 	this.svg.appendChild (svgNode.rect);
 	
 	svgNode.text = document.createElementNS (svgNamespace, 'text');
-	svgNode.text.setAttributeNS (null, 'fill', 'black');
-	svgNode.text.setAttributeNS (null, 'font-family', 'arial, cursive');
 	svgNode.text.setAttributeNS (null, 'text-anchor', 'middle');
-	svgNode.text.setAttributeNS (null, 'alignment-baseline', 'middle');
 	svgNode.text.setAttributeNS (null, 'dominant-baseline', 'central');
 	svgNode.text.textContent = node.GetText ();
 	this.svg.appendChild (svgNode.text);
