@@ -135,24 +135,28 @@ TV.SVGInterface.prototype.OnNodeClick = function (event, node)
 TV.SVGInterface.prototype.OnMouseDown = function (event)
 {
 	var eventParameters = event || window.event;
+	eventParameters.preventDefault ();
 	this.events.onMouseDown (event.clientX, event.clientY);
 };
 
 TV.SVGInterface.prototype.OnMouseUp = function (event)
 {
 	var eventParameters = event || window.event;
+	eventParameters.preventDefault ();
 	this.events.onMouseUp (event.clientX, event.clientY);
 };
 
 TV.SVGInterface.prototype.OnMouseMove = function (event)
 {
 	var eventParameters = event || window.event;
+	eventParameters.preventDefault ();
 	this.events.onMouseMove (event.clientX, event.clientY);
 };
 
 TV.SVGInterface.prototype.OnMouseWheel = function (event)
 {
 	var eventParameters = event || window.event;
+	eventParameters.preventDefault ();
 	var delta = 0;
 	if (eventParameters.detail) {
 		delta = -eventParameters.detail;
