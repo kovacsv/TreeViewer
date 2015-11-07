@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<script type="text/javascript" src="../src/core.js"></script>
+	<script type="text/javascript" src="../src/treenode.js"></script>
+	<script type="text/javascript" src="../src/treelayout.js"></script>
+	<script type="text/javascript" src="../src/treeinterface.js"></script>
+	<script type="text/javascript" src="../src/treeviewer.js"></script>
+	<title>Example</title>
+	<style>
+
+	</style>
+
+	<script type="text/javascript">
+		function Load ()
+		{
+			var json = {
+				text : 'alma',
+				children : [
+					{
+						text : 'korte',
+						children : [
+							{
+								text : 'barack',
+								children : [
+									{
+										text : 'malna',
+										children : [
+											{
+												text : 'szolo'
+											},
+											{
+												text : 'meggy'
+											}
+										]
+									},
+									{
+										text : 'mandarin'
+									},
+									{
+										text : 'szilva'
+									}
+								]
+							},
+							{
+								text : 'banan',
+								children : [
+									{
+										text : 'szeder'
+									}
+								]
+							}
+						]
+					},
+					{
+						text : 'eper',
+						children : [
+							{
+								text : 'narancs',
+								children : [
+									{
+										text : 'citrom'
+									},
+									{
+										text : 'korte'
+									},
+									{
+										text : 'dinnye'
+									}
+								]
+							}
+						]
+					}
+				]
+			};
+		
+			var svg = document.getElementById ('example');
+			var svgInterface = new TV.SVGInterface (svg);
+			var tree = new TV.TreeViewer (svgInterface);
+			tree.LoadJson (json);
+		}
+	
+	    window.onload = function ()
+		{
+			Load ();			
+		}
+	</script>
+
+</head>
+
+<body>
+	<svg id="example" xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="800">
+	</svg>
+</body>
+
+</html>
