@@ -99,19 +99,23 @@ TV.TreeViewer.prototype.OnMouseMove = function (x, y)
 
 TV.TreeViewer.prototype.OnMouseWheel = function (x, y, delta)
 {
-	var oldScale = this.scale;
-	var origX = TV.ScreenToModel (x, this.offset.x, this.scale);
-	var origY = TV.ScreenToModel (y, this.offset.y, this.scale);
-	
+	var newScale = this.scale;
 	if (delta > 0) {
-		this.scale *= 1.1;
+		newScale *= 1.1;
 	} else {
-		this.scale *= 0.9;
+		newScale *= 0.9;
 	}
 	
-	var scaleDiff = oldScale - this.scale;
+	if (newScale < 0.1 || newScale > 10.0) {
+		return;
+	}
+	
+	var scaleDiff = this.scale - newScale;
+	var origX = TV.ScreenToModel (x, this.offset.x, this.scale);
+	var origY = TV.ScreenToModel (y, this.offset.y, this.scale);
 	this.offset.x += origX * scaleDiff;
 	this.offset.y += origY * scaleDiff;
+	this.scale = newScale;
 	
 	this.Update ();
 };
