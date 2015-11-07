@@ -91,7 +91,7 @@ TV.SVGInterface.prototype.CreateNode = function (node)
 	svgNode.text.setAttributeNS (null, 'font-family', 'arial, cursive');
 	svgNode.text.setAttributeNS (null, 'text-anchor', 'middle');
 	svgNode.text.setAttributeNS (null, 'alignment-baseline', 'middle');
-	svgNode.text.textContent = node.GetText ()
+	svgNode.text.textContent = node.GetText ();
 	this.svg.appendChild (svgNode.text);
 	
 	this.svgNodes[nodeId] = svgNode;
@@ -116,7 +116,7 @@ TV.SVGInterface.prototype.OnNodeClick = function (event, node)
 			svg.removeChild (svgNode.text);
 			svg.removeChild (svgNode.line);
 		}
-	};
+	}
 
 	this.events.onNodeClick (node);
 	if (node.IsCollapsed ()) {

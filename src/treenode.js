@@ -91,7 +91,7 @@ TV.TreeNode.prototype.EnumerateChildrenRecursive = function (onFound)
 TV.TreeNode.prototype.EnumerateVisibleChildren = function (onFound)
 {
 	if (!this.expanded) {
-		return
+		return;
 	}
 	this.EnumerateChildren (onFound);
 };
