@@ -166,7 +166,7 @@ TV.SVGInterface.prototype.CalcMousePosition = function (origX, origY)
 {
 	var boundingRect = this.svg.getBoundingClientRect ();
 	return new TV.Point (
-		origX - boundingRect.x,
-		origY - boundingRect.y
+		origX - boundingRect.left,
+		origY - boundingRect.top
 	);
 };
