@@ -9,50 +9,10 @@
 	<script type="text/javascript" src="../src/treenode.js"></script>
 	<script type="text/javascript" src="../src/treelayout.js"></script>
 	<script type="text/javascript" src="../src/treeviewer.js"></script>
+	<script type="text/javascript" src="../src/drawinterface.js"></script>
 	<script type="text/javascript" src="../src/svginterface.js"></script>
+	<script type="text/javascript" src="../src/canvasinterface.js"></script>
 	<title>Example</title>
-	<style>
-		svg
-		{
-
-		}
-	
-		rect
-		{
-			stroke : #000000;
-		}
-		
-		rect.nochild
-		{
-			fill : #ffffff;
-		}	
-	
-		rect.haschild
-		{
-			fill : #f5f5f5;
-			cursor : pointer;
-		}
-		
-		text
-		{
-			font-family : arial;
-		}
-		
-		text.nochild
-		{
-			
-		}	
-	
-		text.haschild
-		{
-			cursor : pointer;
-		}
-		
-		line
-		{
-			stroke : #000000;
-		}
-	</style>
 
 	<script type="text/javascript">
 		function Load ()
@@ -118,7 +78,8 @@
 			};
 		
 			var svg = document.getElementById ('example');
-			var svgInterface = new TV.SVGInterface (svg);
+			var style = new TV.DrawStyle ();
+			var svgInterface = new TV.SVGInterface (svg, style);
 			var tree = new TV.TreeViewer (svgInterface);
 			tree.LoadJson (json);
 		}

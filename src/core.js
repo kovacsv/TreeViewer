@@ -3,6 +3,20 @@ var TV = function () {
 	this.subVersion = 1;
 };
 
+TV.CopyObjectProperties = function (source, target)
+{
+	if (source === undefined || source === null) {
+		return;
+	}
+	
+	var property;
+	for (property in source) {
+		if (source.hasOwnProperty (property)) {
+			target[property] = source[property];
+		}
+	}
+};
+
 TV.ModelToScreen = function (original, offset, scale)
 {
 	return original * scale + offset;

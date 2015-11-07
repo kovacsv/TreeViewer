@@ -9,6 +9,7 @@
 	<script type="text/javascript" src="../src/treenode.js"></script>
 	<script type="text/javascript" src="../src/treelayout.js"></script>
 	<script type="text/javascript" src="../src/treeviewer.js"></script>
+	<script type="text/javascript" src="../src/drawinterface.js"></script>
 	<script type="text/javascript" src="../src/svginterface.js"></script>
 	<script type="text/javascript" src="../src/canvasinterface.js"></script>
 	<title>Example</title>
@@ -80,7 +81,8 @@
 			};
 		
 			var canvas = document.getElementById ('example');
-			var canvasInterface = new TV.CanvasInterface (canvas);
+			var style = new TV.DrawStyle ();
+			var canvasInterface = new TV.CanvasInterface (canvas, style);
 			var tree = new TV.TreeViewer (canvasInterface);
 			tree.LoadJson (json);
 		}
