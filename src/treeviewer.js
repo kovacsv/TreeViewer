@@ -12,6 +12,7 @@ TV.TreeViewer = function (drawInterface)
 	this.scale = 1.0;
 	this.layout = new TV.TreeLayout ();
 	this.mouse = null;
+	this.move = null;
 };
 
 TV.TreeViewer.prototype.LoadJson = function (jsonData)
@@ -64,20 +65,25 @@ TV.TreeViewer.prototype.SearchNode = function (x, y)
 TV.TreeViewer.prototype.OnMouseDown = function (x, y)
 {
 	this.mouse = new TV.Point (x, y);
+	this.move = false;
 };
 
 TV.TreeViewer.prototype.OnMouseUp = function (x, y)
 {
-	var node = this.SearchNode (x, y);
-	if (node !== null) {
-		if (node.IsExpanded ()) {
-			node.Collapse ();
-		} else {
-			node.Expand ();
+	if (!this.move) {
+		var node = this.SearchNode (x, y);
+		if (node !== null) {
+			if (node.IsExpanded ()) {
+				node.Collapse ();
+			} else {
+				node.Expand ();
+			}
+			this.CalculateLayout ();
 		}
-		this.CalculateLayout ();
 	}
+	
 	this.mouse = null;
+	this.move = null;
 };
 
 TV.TreeViewer.prototype.OnMouseMove = function (x, y)
@@ -86,6 +92,7 @@ TV.TreeViewer.prototype.OnMouseMove = function (x, y)
 		this.offset.x += x - this.mouse.x;
 		this.offset.y += y - this.mouse.y;
 		this.mouse.Set (x, y);
+		this.move = true;
 		this.Update ();
 	}
 };
