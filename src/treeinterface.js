@@ -22,6 +22,7 @@ TV.SVGInterface.prototype.UpdateNode = function (node, offset)
 		svgNode = this.CreateNode (node);
 	}
 	
+	var className = node.HasChild () ? 'haschild' : 'nochild';
 	var position = node.GetPosition ();
 	var size = node.GetSize ();
 	
@@ -29,12 +30,14 @@ TV.SVGInterface.prototype.UpdateNode = function (node, offset)
 	svgNode.rect.setAttributeNS (null, 'y', parseInt (position.y + offset.y, 10));
 	svgNode.rect.setAttributeNS (null, 'width', parseInt (size.x, 10));
 	svgNode.rect.setAttributeNS (null, 'height', parseInt (size.y, 10));
+	svgNode.rect.setAttributeNS (null, 'class', className);
 	
 	var textBox = svgNode.text.getBBox ();
 	var textX = position.x + size.x / 2;
 	var textY = position.y + (size.y + textBox.height / 2) / 2;
 	svgNode.text.setAttributeNS (null, 'x', parseInt (textX + offset.x, 10));
 	svgNode.text.setAttributeNS (null, 'y', parseInt (textY + offset.y, 10));
+	svgNode.text.setAttributeNS (null, 'class', className);
 
 	if (node.HasParent ()) {
 		var start = node.GetParent ().GetRightAnchor ();
