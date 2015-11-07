@@ -69,6 +69,7 @@ TV.TreeViewer.prototype.OnMouseMove = function (x, y)
 
 TV.TreeViewer.prototype.OnMouseWheel = function (delta)
 {
+	// TODO: scale should modify offset, too
 	if (delta > 0) {
 		this.scale *= 1.1;
 	} else {

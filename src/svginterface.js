@@ -4,6 +4,10 @@ TV.SVGInterface = function (svg)
 	this.svgNodes = {};
 	this.svg.setAttributeNS (null, 'transform', 'translate(0.5,0.5)');
 	this.events = null;
+	this.style = {
+		fontSize : 12,
+		strokeWidth : 1
+	};
 };
 
 TV.SVGInterface.prototype.RegisterEvents = function (events)
@@ -40,8 +44,8 @@ TV.SVGInterface.prototype.UpdateNode = function (node, offset, scale)
 	var position = node.GetPosition ();
 	var size = node.GetSize ();
 
-	var strokeWidth = Math.max (GetValue (1, null, scale), 1.0);
-	var fontSize = GetValue (15, null, scale);
+	var strokeWidth = Math.max (GetValue (this.style.strokeWidth, null, scale), 1.0);
+	var fontSize = GetValue (this.style.fontSize, null, scale);
 	
 	if (node.HasParent ()) {
 		var start = node.GetParent ().GetRightAnchor ();
