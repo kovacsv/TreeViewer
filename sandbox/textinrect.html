@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<title>Example</title>
+	<script type="text/javascript">
+		function GetTextPosition (text, rectX, rectY, rectWidth, rectHeight)
+		{
+			var textBox = text.getBBox ();
+			return {
+				x : rectX + rectWidth / 2,
+				y : rectY + rectHeight
+			};
+		}
+
+		function DrawTextInRect (svg, rectX, rectY, rectWidth, rectHeight, fontSize)
+		{
+			var svgNamespace = 'http://www.w3.org/2000/svg';
+			
+			var rect = document.createElementNS (svgNamespace, 'rect');
+			svg.appendChild (rect);
+
+			rect.setAttributeNS (null, 'stroke', 'black');
+			rect.setAttributeNS (null, 'fill', 'white');
+			
+			rect.setAttributeNS (null, 'x', rectX);
+			rect.setAttributeNS (null, 'y', rectY);
+			rect.setAttributeNS (null, 'width', rectWidth);
+			rect.setAttributeNS (null, 'height', rectHeight);
+	
+			var text = document.createElementNS (svgNamespace, 'text');
+			svg.appendChild (text);
+
+			text.setAttributeNS (null, 'fill', 'red');
+			text.setAttributeNS (null, 'font-size', fontSize + 'px');
+			text.setAttributeNS (null, 'font-family', 'arial, cursive');
+			text.setAttributeNS (null, 'text-anchor', 'middle');
+			text.textContent = 'my text';
+			
+			var textPosition = GetTextPosition (text, rectX, rectY, rectWidth, rectHeight);
+			text.setAttributeNS (null, 'x', textPosition.x);
+			text.setAttributeNS (null, 'y', textPosition.y);			
+		}
+	
+		function Load ()
+		{
+			var svg = document.getElementById ('example');
+			DrawTextInRect (svg, 10, 10, 120, 30, 10);
+			DrawTextInRect (svg, 10, 50, 120, 30, 15);
+			DrawTextInRect (svg, 10, 90, 120, 30, 20);
+			DrawTextInRect (svg, 10, 130, 120, 30, 25);
+			DrawTextInRect (svg, 10, 170, 120, 30, 30);
+
+			DrawTextInRect (svg, 140, 10, 120, 50, 10);
+			DrawTextInRect (svg, 140, 70, 120, 100, 15);
+			
+			DrawTextInRect (svg, 270, 10, 120, 150, 10);
+			DrawTextInRect (svg, 400, 10, 120, 150, 20);
+			DrawTextInRect (svg, 530, 10, 120, 150, 30);
+		}
+	
+	    window.onload = function ()
+		{
+			Load ();			
+		}
+	</script>
+
+</head>
+
+<body>
+	<svg id="example" xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="400" transform="translate(0.5,0.5)">
+	</svg>
+</body>
+
+</html>
