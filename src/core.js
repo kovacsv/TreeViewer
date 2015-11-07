@@ -3,6 +3,16 @@ var TV = function () {
 	this.subVersion = 1;
 };
 
+TV.ModelToScreen = function (original, offset, scale)
+{
+	return original * scale + offset;
+};
+
+TV.ScreenToModel = function (original, offset, scale)
+{
+	return (original - offset) / scale;
+};
+
 TV.Point = function (x, y)
 {
 	this.x = x;

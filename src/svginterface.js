@@ -24,13 +24,7 @@ TV.SVGInterface.prototype.UpdateNode = function (node, offset, scale)
 {
 	function GetValue (original, offset, scale)
 	{
-		var result = original;
-		if (scale !== null) {
-			result *= scale;
-		}
-		if (offset !== null) {
-			result += offset;
-		}
+		var result = TV.ModelToScreen (original, offset || 0.0, scale || 1.0);
 		return parseInt (result, 10);
 	}
 	
