@@ -9,9 +9,9 @@ TV.SVGInterface = function (svg)
 TV.SVGInterface.prototype.RegisterEvents = function (events)
 {
 	this.events = events;
-	//document.addEventListener ('mousemove', function (event) {});
-	//document.addEventListener ('mouseup', function (event) {});
-	//this.svg.addEventListener ('mousedown', function (event) {alert ('down');}, false);
+	this.svg.addEventListener ('mousedown', this.OnMouseDown.bind (this), false);
+	document.addEventListener ('mouseup', this.OnMouseUp.bind (this), false);
+	document.addEventListener ('mousemove', this.OnMouseMove.bind (this), false);
 };
 
 TV.SVGInterface.prototype.UpdateNode = function (node, offset)
@@ -82,14 +82,14 @@ TV.SVGInterface.prototype.CreateNode = function (node)
 	this.svgNodes[nodeId] = svgNode;
 	if (this.events !== null) {
 		var myThis = this;
-		svgNode.rect.addEventListener ('click', function (event) { myThis.OnNodeClick (node); }, false);
-		svgNode.text.addEventListener ('click', function (event) { myThis.OnNodeClick (node); }, false);
+		svgNode.rect.addEventListener ('click', function (event) { myThis.OnNodeClick (event, node); }, false);
+		svgNode.text.addEventListener ('click', function (event) { myThis.OnNodeClick (event, node); }, false);
 	}
 
 	return svgNode;
 };
 
-TV.SVGInterface.prototype.OnNodeClick = function (node)
+TV.SVGInterface.prototype.OnNodeClick = function (event, node)
 {
 	function DeleteNode (node, svg, svgNodes)
 	{
@@ -111,4 +111,22 @@ TV.SVGInterface.prototype.OnNodeClick = function (node)
 			DeleteNode (child, svg, svgNodes);
 		});		
 	}
+};
+
+TV.SVGInterface.prototype.OnMouseDown = function (event)
+{
+	var eventParameters = event || window.event;
+	this.events.onMouseDown (event.clientX, event.clientY);
+};
+
+TV.SVGInterface.prototype.OnMouseUp = function (event)
+{
+	var eventParameters = event || window.event;
+	this.events.onMouseUp (event.clientX, event.clientY);
+};
+
+TV.SVGInterface.prototype.OnMouseMove = function (event)
+{
+	var eventParameters = event || window.event;
+	this.events.onMouseMove (event.clientX, event.clientY);
 };
