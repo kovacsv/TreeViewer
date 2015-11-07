@@ -39,6 +39,9 @@ TV.SVGInterface.prototype.UpdateNode = function (node, offset, scale)
 	var className = node.HasChild () ? 'haschild' : 'nochild';
 	var position = node.GetPosition ();
 	var size = node.GetSize ();
+
+	var strokeWidth = Math.max (GetValue (1, null, scale), 1.0);
+	var fontSize = GetValue (15, null, scale);
 	
 	if (node.HasParent ()) {
 		var start = node.GetParent ().GetRightAnchor ();
@@ -47,6 +50,7 @@ TV.SVGInterface.prototype.UpdateNode = function (node, offset, scale)
 		svgNode.line.setAttributeNS (null, 'y1', GetValue (start.y, offset.y, scale));
 		svgNode.line.setAttributeNS (null, 'x2', GetValue (end.x, offset.x, scale));
 		svgNode.line.setAttributeNS (null, 'y2', GetValue (end.y, offset.y, scale));
+		svgNode.line.setAttributeNS (null, 'stroke-width', strokeWidth);
 	}
 
 	svgNode.rect.setAttributeNS (null, 'x', GetValue (position.x, offset.x, scale));
@@ -54,14 +58,14 @@ TV.SVGInterface.prototype.UpdateNode = function (node, offset, scale)
 	svgNode.rect.setAttributeNS (null, 'width', GetValue (size.x, null, scale));
 	svgNode.rect.setAttributeNS (null, 'height', GetValue (size.y, null, scale));
 	svgNode.rect.setAttributeNS (null, 'class', className);
-	
-	svgNode.text.setAttributeNS (null, 'font-size', GetValue (15, null, scale));
-	var textBox = svgNode.text.getBBox ();
+	svgNode.rect.setAttributeNS (null, 'stroke-width', strokeWidth);
+
 	var textX = position.x + size.x / 2;
 	var textY = position.y + size.y / 2;
 	svgNode.text.setAttributeNS (null, 'x', GetValue (textX, offset.x, scale));
 	svgNode.text.setAttributeNS (null, 'y', GetValue (textY, offset.y, scale));
 	svgNode.text.setAttributeNS (null, 'class', className);
+	svgNode.text.setAttributeNS (null, 'font-size', fontSize);
 };
 
 TV.SVGInterface.prototype.CreateNode = function (node)
@@ -87,7 +91,6 @@ TV.SVGInterface.prototype.CreateNode = function (node)
 	
 	svgNode.text = document.createElementNS (svgNamespace, 'text');
 	svgNode.text.setAttributeNS (null, 'fill', 'black');
-	svgNode.text.setAttributeNS (null, 'font-size', '15px');
 	svgNode.text.setAttributeNS (null, 'font-family', 'arial, cursive');
 	svgNode.text.setAttributeNS (null, 'text-anchor', 'middle');
 	svgNode.text.setAttributeNS (null, 'alignment-baseline', 'middle');
