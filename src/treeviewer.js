@@ -1,7 +1,7 @@
-TV.TreeViewer = function (treeInterface)
+TV.TreeViewer = function (drawInterface)
 {
-	this.treeInterface = treeInterface;
-	this.treeInterface.RegisterEvents ({
+	this.drawInterface = drawInterface;
+	this.drawInterface.RegisterEvents ({
 		onNodeClick : this.OnNodeClick.bind (this)
 	});
 	
@@ -23,10 +23,10 @@ TV.TreeViewer.prototype.CalculateLayout = function ()
 
 TV.TreeViewer.prototype.Update = function (jsonData)
 {
-	var treeInterface = this.treeInterface;
+	var drawInterface = this.drawInterface;
 	var offset = this.offset;
 	this.layout.EnumerateNodes (function (node) {
-		treeInterface.UpdateNode (node, offset);
+		drawInterface.UpdateNode (node, offset);
 	});
 };
 
