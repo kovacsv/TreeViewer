@@ -2,7 +2,6 @@ TV.TreeViewer = function (drawInterface)
 {
 	this.drawInterface = drawInterface;
 	this.drawInterface.RegisterEvents ({
-		onNodeClick : this.OnNodeClick.bind (this),
 		onMouseDown : this.OnMouseDown.bind (this),
 		onMouseUp : this.OnMouseUp.bind (this),
 		onMouseMove : this.OnMouseMove.bind (this),
@@ -30,21 +29,36 @@ TV.TreeViewer.prototype.CalculateLayout = function ()
 TV.TreeViewer.prototype.Update = function ()
 {
 	var drawInterface = this.drawInterface;
+	drawInterface.UpdateStart ();
+	
 	var offset = this.offset;
 	var scale = this.scale;
 	this.layout.EnumerateNodes (function (node) {
 		drawInterface.UpdateNode (node, offset, scale);
 	});
+	
+	drawInterface.UpdateEnd ();
 };
 
-TV.TreeViewer.prototype.OnNodeClick = function (node)
+TV.TreeViewer.prototype.SearchNode = function (x, y)
 {
-	if (node.IsExpanded ()) {
-		node.Collapse ();
-	} else {
-		node.Expand ();
+	function InRange (point, start, width)
+	{
+		return point >= start && point <= start + width;
 	}
-	this.CalculateLayout ();
+	
+	var origX = TV.ScreenToModel (x, this.offset.x, this.scale);
+	var origY = TV.ScreenToModel (y, this.offset.y, this.scale);
+	var result = null;
+	this.layout.EnumerateNodes (function (node) {
+		if (result !== null) {
+			return;
+		}
+		if (InRange (origX, node.position.x, node.size.x) && InRange (origY, node.position.y, node.size.y)) {
+			result = node;
+		}
+	});
+	return result;
 };
 
 TV.TreeViewer.prototype.OnMouseDown = function (x, y)
@@ -54,6 +68,15 @@ TV.TreeViewer.prototype.OnMouseDown = function (x, y)
 
 TV.TreeViewer.prototype.OnMouseUp = function (x, y)
 {
+	var node = this.SearchNode (x, y);
+	if (node !== null) {
+		if (node.IsExpanded ()) {
+			node.Collapse ();
+		} else {
+			node.Expand ();
+		}
+		this.CalculateLayout ();
+	}
 	this.mouse = null;
 };
 

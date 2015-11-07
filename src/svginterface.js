@@ -20,12 +20,42 @@ TV.SVGInterface.prototype.RegisterEvents = function (events)
 	this.svg.addEventListener ('mousewheel', this.OnMouseWheel.bind (this), false);
 };
 
+TV.SVGInterface.prototype.UpdateStart = function ()
+{
+
+};
+
+TV.SVGInterface.prototype.UpdateEnd = function ()
+{
+
+};
+
 TV.SVGInterface.prototype.UpdateNode = function (node, offset, scale)
 {
+	function DeleteNode (node, svg, svgNodes)
+	{
+		var nodeId = node.GetId ();
+		var svgNode = svgNodes[nodeId];
+		if (svgNode !== undefined && svgNode !== null) {
+			svgNodes[nodeId] = null;
+			svg.removeChild (svgNode.rect);
+			svg.removeChild (svgNode.text);
+			svg.removeChild (svgNode.line);
+		}
+	}
+
 	function GetValue (original, offset, scale)
 	{
 		var result = TV.ModelToScreen (original, offset || 0.0, scale || 1.0);
 		return parseInt (result, 10);
+	}
+
+	if (node.IsCollapsed ()) {
+		var svg = this.svg;
+		var svgNodes = this.svgNodes;
+		node.EnumerateChildrenRecursive (function (child) {
+			DeleteNode (child, svg, svgNodes);
+		});		
 	}
 	
 	var nodeId = node.GetId ();
@@ -92,37 +122,7 @@ TV.SVGInterface.prototype.CreateNode = function (node)
 	this.svg.appendChild (svgNode.text);
 	
 	this.svgNodes[nodeId] = svgNode;
-	if (this.events !== null) {
-		var myThis = this;
-		svgNode.rect.addEventListener ('click', function (event) { myThis.OnNodeClick (event, node); }, false);
-		svgNode.text.addEventListener ('click', function (event) { myThis.OnNodeClick (event, node); }, false);
-	}
-
 	return svgNode;
-};
-
-TV.SVGInterface.prototype.OnNodeClick = function (event, node)
-{
-	function DeleteNode (node, svg, svgNodes)
-	{
-		var nodeId = node.GetId ();
-		var svgNode = svgNodes[nodeId];
-		if (svgNode !== undefined && svgNode !== null) {
-			svgNodes[nodeId] = null;
-			svg.removeChild (svgNode.rect);
-			svg.removeChild (svgNode.text);
-			svg.removeChild (svgNode.line);
-		}
-	}
-
-	this.events.onNodeClick (node);
-	if (node.IsCollapsed ()) {
-		var svg = this.svg;
-		var svgNodes = this.svgNodes;
-		node.EnumerateChildrenRecursive (function (child) {
-			DeleteNode (child, svg, svgNodes);
-		});		
-	}
 };
 
 TV.SVGInterface.prototype.OnMouseDown = function (event)
