@@ -1,4 +1,4 @@
-TV.SVGInterface = function (svg, style)
+TV.SVGDrawer = function (svg, style)
 {
 	this.svg = svg;
 	this.svgNodes = {};
@@ -7,7 +7,7 @@ TV.SVGInterface = function (svg, style)
 	this.events = null;
 };
 
-TV.SVGInterface.prototype.RegisterEvents = function (events)
+TV.SVGDrawer.prototype.RegisterEvents = function (events)
 {
 	this.events = events;
 	this.svg.addEventListener ('mousedown', this.OnMouseDown.bind (this), false);
@@ -17,17 +17,17 @@ TV.SVGInterface.prototype.RegisterEvents = function (events)
 	this.svg.addEventListener ('mousewheel', this.OnMouseWheel.bind (this), false);
 };
 
-TV.SVGInterface.prototype.UpdateStart = function ()
+TV.SVGDrawer.prototype.UpdateStart = function ()
 {
 
 };
 
-TV.SVGInterface.prototype.UpdateEnd = function ()
+TV.SVGDrawer.prototype.UpdateEnd = function ()
 {
 
 };
 
-TV.SVGInterface.prototype.UpdateNode = function (node, offset, scale)
+TV.SVGDrawer.prototype.UpdateNode = function (node, offset, scale)
 {
 	function DeleteNode (node, svg, svgNodes)
 	{
@@ -52,7 +52,7 @@ TV.SVGInterface.prototype.UpdateNode = function (node, offset, scale)
 		var svgNodes = this.svgNodes;
 		node.EnumerateChildrenRecursive (function (child) {
 			DeleteNode (child, svg, svgNodes);
-		});		
+		});
 	}
 	
 	var nodeId = node.GetId ();
@@ -96,7 +96,7 @@ TV.SVGInterface.prototype.UpdateNode = function (node, offset, scale)
 	svgNode.text.setAttributeNS (null, 'font-size', fontSize + 'px');
 };
 
-TV.SVGInterface.prototype.CreateNode = function (node)
+TV.SVGDrawer.prototype.CreateNode = function (node)
 {
 	var nodeId = node.GetId ();
 	var svgNode = {
@@ -125,7 +125,7 @@ TV.SVGInterface.prototype.CreateNode = function (node)
 	return svgNode;
 };
 
-TV.SVGInterface.prototype.OnMouseDown = function (event)
+TV.SVGDrawer.prototype.OnMouseDown = function (event)
 {
 	var eventParameters = event || window.event;
 	eventParameters.preventDefault ();
@@ -133,7 +133,7 @@ TV.SVGInterface.prototype.OnMouseDown = function (event)
 	this.events.onMouseDown (mousePosition.x, mousePosition.y);
 };
 
-TV.SVGInterface.prototype.OnMouseUp = function (event)
+TV.SVGDrawer.prototype.OnMouseUp = function (event)
 {
 	var eventParameters = event || window.event;
 	eventParameters.preventDefault ();
@@ -141,7 +141,7 @@ TV.SVGInterface.prototype.OnMouseUp = function (event)
 	this.events.onMouseUp (mousePosition.x, mousePosition.y);
 };
 
-TV.SVGInterface.prototype.OnMouseMove = function (event)
+TV.SVGDrawer.prototype.OnMouseMove = function (event)
 {
 	var eventParameters = event || window.event;
 	eventParameters.preventDefault ();
@@ -149,7 +149,7 @@ TV.SVGInterface.prototype.OnMouseMove = function (event)
 	this.events.onMouseMove (mousePosition.x, mousePosition.y);
 };
 
-TV.SVGInterface.prototype.OnMouseWheel = function (event)
+TV.SVGDrawer.prototype.OnMouseWheel = function (event)
 {
 	var eventParameters = event || window.event;
 	eventParameters.preventDefault ();
@@ -163,7 +163,7 @@ TV.SVGInterface.prototype.OnMouseWheel = function (event)
 	this.events.onMouseWheel (mousePosition.x, mousePosition.y, delta);
 };
 
-TV.SVGInterface.prototype.CalcMousePosition = function (origX, origY)
+TV.SVGDrawer.prototype.CalcMousePosition = function (origX, origY)
 {
 	var boundingRect = this.svg.getBoundingClientRect ();
 	return new TV.Point (

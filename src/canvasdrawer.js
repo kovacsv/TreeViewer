@@ -1,4 +1,4 @@
-TV.CanvasInterface = function (canvas, style)
+TV.CanvasDrawer = function (canvas, style)
 {
 	this.canvas = canvas;
 	this.context = canvas.getContext ('2d');
@@ -8,7 +8,7 @@ TV.CanvasInterface = function (canvas, style)
 	this.visibility = null;
 };
 
-TV.CanvasInterface.prototype.RegisterEvents = function (events)
+TV.CanvasDrawer.prototype.RegisterEvents = function (events)
 {
 	this.events = events;
 	this.canvas.addEventListener ('mousedown', this.OnMouseDown.bind (this), false);
@@ -18,7 +18,7 @@ TV.CanvasInterface.prototype.RegisterEvents = function (events)
 	this.canvas.addEventListener ('mousewheel', this.OnMouseWheel.bind (this), false);
 };
 
-TV.CanvasInterface.prototype.UpdateStart = function ()
+TV.CanvasDrawer.prototype.UpdateStart = function ()
 {
 	this.context.clearRect (0, 0, this.canvas.width, this.canvas.height);
 	this.context.fillStyle = '#ffffff';
@@ -26,12 +26,12 @@ TV.CanvasInterface.prototype.UpdateStart = function ()
 	this.visibility = {};
 };
 
-TV.CanvasInterface.prototype.UpdateEnd = function ()
+TV.CanvasDrawer.prototype.UpdateEnd = function ()
 {
 	this.visibility = null;
 };
 
-TV.CanvasInterface.prototype.UpdateNode = function (node, offset, scale)
+TV.CanvasDrawer.prototype.UpdateNode = function (node, offset, scale)
 {
 	function GetValue (original, offset, scale)
 	{
@@ -115,7 +115,7 @@ TV.CanvasInterface.prototype.UpdateNode = function (node, offset, scale)
 	this.context.fillText (nodeText, GetValue (textX, offset.x, scale), GetValue (textY, offset.y, scale));
 };
 
-TV.CanvasInterface.prototype.OnMouseDown = function (event)
+TV.CanvasDrawer.prototype.OnMouseDown = function (event)
 {
 	var eventParameters = event || window.event;
 	eventParameters.preventDefault ();
@@ -123,7 +123,7 @@ TV.CanvasInterface.prototype.OnMouseDown = function (event)
 	this.events.onMouseDown (mousePosition.x, mousePosition.y);
 };
 
-TV.CanvasInterface.prototype.OnMouseUp = function (event)
+TV.CanvasDrawer.prototype.OnMouseUp = function (event)
 {
 	var eventParameters = event || window.event;
 	eventParameters.preventDefault ();
@@ -131,7 +131,7 @@ TV.CanvasInterface.prototype.OnMouseUp = function (event)
 	this.events.onMouseUp (mousePosition.x, mousePosition.y);
 };
 
-TV.CanvasInterface.prototype.OnMouseMove = function (event)
+TV.CanvasDrawer.prototype.OnMouseMove = function (event)
 {
 	var eventParameters = event || window.event;
 	eventParameters.preventDefault ();
@@ -139,7 +139,7 @@ TV.CanvasInterface.prototype.OnMouseMove = function (event)
 	this.events.onMouseMove (mousePosition.x, mousePosition.y);
 };
 
-TV.CanvasInterface.prototype.OnMouseWheel = function (event)
+TV.CanvasDrawer.prototype.OnMouseWheel = function (event)
 {
 	var eventParameters = event || window.event;
 	eventParameters.preventDefault ();
@@ -153,7 +153,7 @@ TV.CanvasInterface.prototype.OnMouseWheel = function (event)
 	this.events.onMouseWheel (mousePosition.x, mousePosition.y, delta);
 };
 
-TV.CanvasInterface.prototype.CalcMousePosition = function (origX, origY)
+TV.CanvasDrawer.prototype.CalcMousePosition = function (origX, origY)
 {
 	return new TV.Point (
 		origX - this.canvas.offsetLeft,

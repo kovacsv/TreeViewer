@@ -1,7 +1,7 @@
-TV.TreeViewer = function (drawInterface)
+TV.TreeViewer = function (drawer)
 {
-	this.drawInterface = drawInterface;
-	this.drawInterface.RegisterEvents ({
+	this.drawer = drawer;
+	this.drawer.RegisterEvents ({
 		onMouseDown : this.OnMouseDown.bind (this),
 		onMouseUp : this.OnMouseUp.bind (this),
 		onMouseMove : this.OnMouseMove.bind (this),
@@ -29,16 +29,16 @@ TV.TreeViewer.prototype.CalculateLayout = function ()
 
 TV.TreeViewer.prototype.Update = function ()
 {
-	var drawInterface = this.drawInterface;
-	drawInterface.UpdateStart ();
+	var drawer = this.drawer;
+	drawer.UpdateStart ();
 	
 	var offset = this.offset;
 	var scale = this.scale;
 	this.layout.EnumerateNodes (function (node) {
-		drawInterface.UpdateNode (node, offset, scale);
+		drawer.UpdateNode (node, offset, scale);
 	});
 	
-	drawInterface.UpdateEnd ();
+	drawer.UpdateEnd ();
 };
 
 TV.TreeViewer.prototype.SearchNode = function (x, y)
