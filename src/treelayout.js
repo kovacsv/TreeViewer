@@ -32,7 +32,6 @@ TV.TreeLayout.prototype.LoadData = function (data)
 	}
 
 	this.rootNode = LoadNode (this, data, null);
-	
 	var width = this.dimensions.defaultNodeWidth;
 	var height = this.dimensions.defaultNodeHeight;
 	this.EnumerateNodes (function (node) {
@@ -51,12 +50,14 @@ TV.TreeLayout.prototype.CalculateLayout = function ()
 			}
 
 			var height = 0;
+			var count = 0;
 			node.EnumerateVisibleChildren (function (child) {
 				height += GetVerticalHeight (child, dimensions, verticalHeightCache);
 				height += dimensions.verticalPadding;
+				count += 1;
 			});
 			
-			if (height !== 0) {
+			if (count !== 0) {
 				height -= dimensions.verticalPadding;
 			} else {
 				height = node.size.y;

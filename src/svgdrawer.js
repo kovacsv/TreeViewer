@@ -17,6 +17,29 @@ TV.SVGDrawer.prototype.RegisterEvents = function (events)
 	this.svg.addEventListener ('mousewheel', this.OnMouseWheel.bind (this), false);
 };
 
+TV.SVGDrawer.prototype.SetNodesAutomaticSize = function (nodeEnumerator)
+{
+	var fontSize = this.style.GetFontSize (1.0);
+	var fontFamily = this.style.GetFontFamily ();
+	
+	var svgNamespace = 'http://www.w3.org/2000/svg';
+	var measureText = document.createElementNS (svgNamespace, 'text');
+	measureText.setAttributeNS (null, 'text-anchor', 'middle');
+	measureText.setAttributeNS (null, 'dominant-baseline', 'central');
+
+	measureText.setAttributeNS (null, 'font-size', fontSize + 'px');
+	measureText.setAttributeNS (null, 'font-family', fontFamily);
+
+	this.svg.appendChild (measureText);
+	nodeEnumerator (function (node) {
+		measureText.textContent = node.GetText ();
+		var textSize = measureText.getBBox ();
+		node.size.x = textSize.width + 30;
+		node.size.y = fontSize * 2;
+	});
+	this.svg.removeChild (measureText);
+};
+
 TV.SVGDrawer.prototype.DrawStart = function ()
 {
 
@@ -67,6 +90,7 @@ TV.SVGDrawer.prototype.DrawNode = function (node, offset, scale)
 
 	var lineWidth = Math.max (this.style.GetLineWidth (scale), 1.0);
 	var fontSize = this.style.GetFontSize (scale);
+	var fontFamily = this.style.GetFontFamily ();
 	
 	svgNode.rect.setAttributeNS (null, 'x', GetValue (position.x, offset.x, scale));
 	svgNode.rect.setAttributeNS (null, 'y', GetValue (position.y, offset.y, scale));
@@ -92,8 +116,8 @@ TV.SVGDrawer.prototype.DrawNode = function (node, offset, scale)
 	svgNode.text.setAttributeNS (null, 'x', GetValue (textX, offset.x, scale));
 	svgNode.text.setAttributeNS (null, 'y', GetValue (textY, offset.y, scale));
 	svgNode.text.setAttributeNS (null, 'fill', this.style.GetTextColor (node));
-	svgNode.text.setAttributeNS (null, 'font-family', this.style.GetFontFamily ());
 	svgNode.text.setAttributeNS (null, 'font-size', fontSize + 'px');
+	svgNode.text.setAttributeNS (null, 'font-family', fontFamily);
 };
 
 TV.SVGDrawer.prototype.CreateNode = function (node)

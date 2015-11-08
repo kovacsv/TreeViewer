@@ -82,6 +82,7 @@
 			var drawer = new TV.SVGDrawer (svg, style);
 			var tree = new TV.TreeViewer (drawer);
 			tree.LoadData (json);
+			tree.SetNodesAutomaticSize ();
 			tree.Update ();
 		}
 	

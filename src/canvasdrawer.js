@@ -18,6 +18,23 @@ TV.CanvasDrawer.prototype.RegisterEvents = function (events)
 	this.canvas.addEventListener ('mousewheel', this.OnMouseWheel.bind (this), false);
 };
 
+TV.CanvasDrawer.prototype.SetNodesAutomaticSize = function (nodeEnumerator)
+{
+	var fontSize = this.style.GetFontSize (1.0);
+	var fontFamily = this.style.GetFontFamily ();
+	var measureCanvas = document.createElement ('canvas');
+	var measureContext = measureCanvas.getContext ('2d');
+	measureContext.font = fontSize + 'px ' + fontFamily;
+	measureContext.textAlign = 'center';
+	measureContext.textBaseline = 'middle';
+
+	nodeEnumerator (function (node) {
+		var textSize = measureContext.measureText (node.GetText ());
+		node.size.x = textSize.width + 30;
+		node.size.y = fontSize * 2;
+	});
+};
+
 TV.CanvasDrawer.prototype.DrawStart = function ()
 {
 	this.context.clearRect (0, 0, this.canvas.width, this.canvas.height);
@@ -70,7 +87,7 @@ TV.CanvasDrawer.prototype.DrawNode = function (node, offset, scale)
 			return visible;
 		}
 		
-		// TODO: edge is not visibel between invisible nodes
+		// TODO: edge is not visible between invisible nodes
 		var visible = IsVisibleNode (node, width, height, offset, scale, visibility);
 		var parentVisible = IsVisibleNode (node.GetParent (), width, height, offset, scale, visibility);
 		return visible || parentVisible;
@@ -107,12 +124,15 @@ TV.CanvasDrawer.prototype.DrawNode = function (node, offset, scale)
 	}
 
 	var nodeText = node.GetText ();
+	var fontSize = this.style.GetFontSize (scale);
+	var fontFamily = this.style.GetFontFamily ();
+	
+	this.context.font = fontSize + 'px ' + fontFamily;
 	this.context.fillStyle = this.style.GetTextColor (node);
 	this.context.textAlign = 'center';
 	this.context.textBaseline = 'middle';
 	var textX = position.x + size.x / 2;
 	var textY = position.y + size.y / 2 + 1;
-	this.context.font = this.style.GetFontSize (scale) + 'px ' + this.style.GetFontFamily ();
 	this.context.fillText (nodeText, GetValue (textX, offset.x, scale), GetValue (textY, offset.y, scale));
 };
 
