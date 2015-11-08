@@ -5,7 +5,6 @@ TV.CanvasDrawer = function (canvas, style)
 	this.context.translate (0.5, 0.5);
 	this.style = style;
 	this.events = null;
-	this.visibility = null;
 };
 
 TV.CanvasDrawer.prototype.RegisterEvents = function (events)
@@ -33,12 +32,11 @@ TV.CanvasDrawer.prototype.DrawStart = function ()
 	this.context.clearRect (0, 0, this.canvas.width, this.canvas.height);
 	this.context.fillStyle = '#ffffff';
 	this.context.fillRect (0, 0, this.canvas.width, this.canvas.height);
-	this.visibility = {};
 };
 
 TV.CanvasDrawer.prototype.DrawEnd = function ()
 {
-	this.visibility = null;
+
 };
 
 TV.CanvasDrawer.prototype.DrawNode = function (node, offset, scale)
@@ -47,47 +45,6 @@ TV.CanvasDrawer.prototype.DrawNode = function (node, offset, scale)
 	{
 		var result = TV.ModelToScreen (original, offset || 0.0, scale || 1.0);
 		return Math.round (result);
-	}
-
-	function IsVisible (node, width, height, visibility)
-	{
-		function IsVisibleNode (node, width, height, offset, scale, visibility)
-		{
-			if (node === null) {
-				return false;
-			}
-			
-			var nodeId = node.GetId ();
-			if (visibility[nodeId] !== undefined) {
-				return visibility[nodeId];
-			}
-			
-			var position = node.GetPosition ();
-			var size = node.GetSize ();
-			
-			var rectX = GetValue (position.x, offset.x, scale);
-			var rectY = GetValue (position.y, offset.y, scale);
-			var rectWidth = GetValue (size.x, null, scale);
-			var rectHeight = GetValue (size.y, null, scale);		
-			
-			var visible = true;
-			if (rectX > width || rectY > height) {
-				visible = false;
-			} else if (rectX + rectWidth < 0 || rectY + rectHeight < 0) {
-				visible = false;
-			}
-			visibility[nodeId] = visible;
-			return visible;
-		}
-		
-		// TODO: edge is not visible between invisible nodes
-		var visible = IsVisibleNode (node, width, height, offset, scale, visibility);
-		var parentVisible = IsVisibleNode (node.GetParent (), width, height, offset, scale, visibility);
-		return visible || parentVisible;
-	}
-		
-	if (!IsVisible (node, this.canvas.width, this.canvas.height, this.visibility)) {
-		return;
 	}
 	
 	var position = node.GetPosition ();
