@@ -133,7 +133,7 @@ TV.CanvasDrawer.prototype.OnMouseWheel = function (event)
 TV.CanvasDrawer.prototype.CalcMousePosition = function (origX, origY)
 {
 	return new TV.Point (
-		origX - this.canvas.offsetLeft,
-		origY - this.canvas.offsetTop
+		origX - (this.canvas.offsetLeft - window.scrollX),
+		origY - (this.canvas.offsetTop - window.scrollY)
 	);
 };

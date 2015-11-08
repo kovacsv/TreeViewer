@@ -13,6 +13,8 @@ TV.TreeViewer = function (drawer)
 	this.layout = new TV.TreeLayout ();
 	this.mouse = null;
 	this.move = null;
+
+	window.addEventListener ('resize', this.OnResize.bind (this), false);
 };
 
 TV.TreeViewer.prototype.LoadData = function (data)
@@ -177,5 +179,10 @@ TV.TreeViewer.prototype.OnMouseWheel = function (x, y, delta)
 	this.offset.y += origY * scaleDiff;
 	this.scale = newScale;
 	
+	this.Draw ();
+};
+
+TV.TreeViewer.prototype.OnResize = function ()
+{
 	this.Draw ();
 };

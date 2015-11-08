@@ -1,0 +1,47 @@
+html, body
+{
+	color : #000000;
+	background : #ffffff;
+	font-size : 14px;
+	font-family : Arial, cursive;
+}
+
+#frame
+{
+	width : 802px;
+	margin : 20px auto;
+}
+
+div.title1
+{
+	font-size : 25px;
+	margin-bottom : 15px;
+}
+
+div.title2
+{
+	font-size : 19px;
+	margin-top : 15px;
+	margin-bottom : 10px;
+}
+
+p
+{
+	margin : 10px 0px;
+}
+
+ul
+{
+	margin : 5px 0px;
+}
+
+li
+{
+	margin : 5px 0px;
+}
+
+canvas
+{
+	border : 1px solid #cccccc;
+	margin : 10px 0px;
+}

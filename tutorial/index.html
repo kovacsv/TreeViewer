@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+
+	<link rel="stylesheet" type="text/css" href="tutorial.css">
+
+	<script type="text/javascript" src="syntaxhighlighter/shCore.js"></script>
+	<script type="text/javascript" src="syntaxhighlighter/shBrushJScript.js"></script>
+	<link rel="stylesheet" type="text/css" href="syntaxhighlighter/shCore.css">
+	<link rel="stylesheet" type="text/css" href="syntaxhighlighter/shThemeDefault.css">
+	
+	<script type="text/javascript" src="../src/core.js"></script>
+	<script type="text/javascript" src="../src/treenode.js"></script>
+	<script type="text/javascript" src="../src/treelayout.js"></script>
+	<script type="text/javascript" src="../src/treeviewer.js"></script>
+	<script type="text/javascript" src="../src/drawstyle.js"></script>
+	<script type="text/javascript" src="../src/svgdrawer.js"></script>
+	<script type="text/javascript" src="../src/canvasdrawer.js"></script>
+
+	<title>TreeViewer tutorial</title>
+
+	<script type="text/javascript">
+		var treeData = {
+			text : 'alma',
+			children : [
+				{
+					text : 'korte'
+				}
+			]
+		};
+		
+		function Example1 ()
+		{
+			var canvas = document.getElementById ('example1');
+			var style = new TV.DrawStyle ();
+			var drawer = new TV.CanvasDrawer (canvas, style);
+			var tree = new TV.TreeViewer (drawer);
+			tree.LoadData (treeData);
+			tree.UpdateAligned ();
+		}
+	
+		function Load ()
+		{
+			SyntaxHighlighter.highlight ();
+			Example1 ();
+		}
+	
+	    window.onload = function ()
+		{
+			Load ();			
+		}
+	</script>
+
+</head>
+
+<body>
+	<div id="frame">
+		<div class="title1">TreeViewer tutorial</div>
+		<p>
+			TreeViewer is a simple tree visualization library. It allows you to explore a tree structure:
+			<ul>
+				<li>Offset the tree vertically and horizontally.</li>
+				<li>Zoom in and out at specific points of the tree.</li>
+				<li>Expand and collapse tree nodes.</li>
+				<li>Draw to canvas or svg.</li>
+			</ul>
+		</p>
+
+		<div class="title2">How to use?</div>
+		<p>
+			First of all, you need to download TreeViewer, and include it to your project.
+<pre class="brush: js; toolbar: false;">
+<script type="text/javascript" src="treeviewer.js"></script>	
+</pre>
+			Next, you need the data you would like to visualize. The data should be in the below format.
+			This example used almost everywhere in this tutorial.
+<pre class="brush: js; toolbar: false;">
+var treeData = {
+	text : 'alma',
+	children : [
+		{
+			text : 'korte'
+		}
+	]
+};
+</pre>
+			Almost there. We need a canvas or svg element to draw to. The code differs a bit for svg elements,
+			you will find examples for this later.
+<pre class="brush: js; toolbar: false;">
+<canvas id="example1" width="600" height="300"></canvas>
+</pre>
+			Finally, you need to initialize the viewer. The most easy way is the following. The elements
+			of it will be explained later in this tutorial.
+<pre class="brush: js; toolbar: false;">
+var canvas = document.getElementById ('example1');
+var style = new TV.DrawStyle (); // draw with default settings
+var drawer = new TV.CanvasDrawer (canvas, style); // we draw on a canvas
+var tree = new TV.TreeViewer (drawer);
+tree.LoadData (treeData);
+tree.UpdateAligned ();
+</pre>
+		</p>
+		
+		<canvas id="example1" width="800" height="300"></canvas>
+	</div>
+</body>
+
+</html>

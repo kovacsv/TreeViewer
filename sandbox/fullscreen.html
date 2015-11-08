@@ -12,79 +12,43 @@
 	<script type="text/javascript" src="../src/drawstyle.js"></script>
 	<script type="text/javascript" src="../src/svgdrawer.js"></script>
 	<script type="text/javascript" src="../src/canvasdrawer.js"></script>
+	<script type="text/javascript" src="examplejson.js"></script>
 	<title>Example</title>
 	<style>
-
+		html, body
+		{
+			width : 100%;
+			height : 100%;
+			margin : 0px;
+			padding : 0px;
+		}
+		
+		#example
+		{
+			width : 100%;
+			height : 100%;
+			display : block;
+		}
 	</style>
 
 	<script type="text/javascript">
+		function Resize ()
+		{
+			var canvas = document.getElementById ('example');
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+		}
+		
 		function Load ()
 		{
-			var json = {
-				text : 'alma',
-				children : [
-					{
-						text : 'korte',
-						children : [
-							{
-								text : 'barack',
-								children : [
-									{
-										text : 'malna',
-										children : [
-											{
-												text : 'szolo'
-											},
-											{
-												text : 'meggy'
-											}
-										]
-									},
-									{
-										text : 'mandarin'
-									},
-									{
-										text : 'szilva'
-									}
-								]
-							},
-							{
-								text : 'banan',
-								children : [
-									{
-										text : 'szeder'
-									}
-								]
-							}
-						]
-					},
-					{
-						text : 'eper',
-						children : [
-							{
-								text : 'narancs',
-								children : [
-									{
-										text : 'citrom'
-									},
-									{
-										text : 'cseresznye'
-									},
-									{
-										text : 'dinnye'
-									}
-								]
-							}
-						]
-					}
-				]
-			};
-
+			window.onresize = Resize;
+			Resize ();
+			
 			var canvas = document.getElementById ('example');
 			var style = new TV.DrawStyle ();
 			var drawer = new TV.CanvasDrawer (canvas, style);
 			var tree = new TV.TreeViewer (drawer);
-			tree.LoadData (json);
+			tree.LoadData (exampleJson);
 			tree.SetNodesToAutomaticSize ();
 			tree.UpdateAligned ();
 		}
@@ -98,7 +62,7 @@
 </head>
 
 <body>
-	<canvas id="example" width="800" height="400" style="border:1px solid #000000;">
+	<canvas id="example" width="800" height="400">
 	</canvas>
 </body>
 

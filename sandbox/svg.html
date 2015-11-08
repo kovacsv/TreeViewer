@@ -12,76 +12,17 @@
 	<script type="text/javascript" src="../src/drawstyle.js"></script>
 	<script type="text/javascript" src="../src/svgdrawer.js"></script>
 	<script type="text/javascript" src="../src/canvasdrawer.js"></script>
+	<script type="text/javascript" src="examplejson.js"></script>
 	<title>Example</title>
 
 	<script type="text/javascript">
 		function Load ()
 		{
-			var json = {
-				text : 'alma',
-				children : [
-					{
-						text : 'korte',
-						children : [
-							{
-								text : 'barack',
-								children : [
-									{
-										text : 'malna',
-										children : [
-											{
-												text : 'szolo'
-											},
-											{
-												text : 'meggy'
-											}
-										]
-									},
-									{
-										text : 'mandarin'
-									},
-									{
-										text : 'szilva'
-									}
-								]
-							},
-							{
-								text : 'banan',
-								children : [
-									{
-										text : 'szeder'
-									}
-								]
-							}
-						]
-					},
-					{
-						text : 'eper',
-						children : [
-							{
-								text : 'narancs',
-								children : [
-									{
-										text : 'citrom'
-									},
-									{
-										text : 'cseresznye'
-									},
-									{
-										text : 'dinnye'
-									}
-								]
-							}
-						]
-					}
-				]
-			};
-		
 			var svg = document.getElementById ('example');
 			var style = new TV.DrawStyle ();
 			var drawer = new TV.SVGDrawer (svg, style);
 			var tree = new TV.TreeViewer (drawer);
-			tree.LoadData (json);
+			tree.LoadData (examplejson);
 			tree.SetNodesToAutomaticSize ();
 			tree.UpdateAligned ();
 		}
