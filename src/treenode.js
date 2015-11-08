@@ -69,33 +69,6 @@ TV.TreeNode.prototype.Collapse = function ()
 	this.expanded = false;
 };
 
-TV.TreeNode.prototype.EnumerateChildren = function (onFound)
-{
-	var i, child;
-	for (i = 0; i < this.children.length; i++) {
-		child = this.children[i];
-		onFound (child);
-	}
-};
-
-TV.TreeNode.prototype.EnumerateChildrenRecursive = function (onFound)
-{
-	var i, child;
-	for (i = 0; i < this.children.length; i++) {
-		child = this.children[i];
-		onFound (child);
-		child.EnumerateChildrenRecursive (onFound);
-	}
-};
-
-TV.TreeNode.prototype.EnumerateVisibleChildren = function (onFound)
-{
-	if (!this.expanded) {
-		return;
-	}
-	this.EnumerateChildren (onFound);
-};
-
 TV.TreeNode.prototype.GetRightAnchor = function ()
 {
 	var x = this.position.x + this.size.x;
@@ -108,4 +81,31 @@ TV.TreeNode.prototype.GetLeftAnchor = function (position)
 	var x = this.position.x;
 	var y = this.position.y + this.size.y / 2;
 	return new TV.Point (x, y);
+};
+
+TV.TreeNode.prototype.EnumerateChildren = function (onFound)
+{
+	var i, child;
+	for (i = 0; i < this.children.length; i++) {
+		child = this.children[i];
+		onFound (child);
+	}
+};
+
+TV.TreeNode.prototype.EnumerateVisibleChildren = function (onFound)
+{
+	if (!this.expanded) {
+		return;
+	}
+	this.EnumerateChildren (onFound);
+};
+
+TV.TreeNode.prototype.EnumerateChildrenRecursive = function (onFound)
+{
+	var i, child;
+	for (i = 0; i < this.children.length; i++) {
+		child = this.children[i];
+		onFound (child);
+		child.EnumerateChildrenRecursive (onFound);
+	}
 };

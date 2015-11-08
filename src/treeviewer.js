@@ -8,7 +8,7 @@ TV.TreeViewer = function (drawer)
 		onMouseWheel : this.OnMouseWheel.bind (this)
 	});
 	
-	this.offset = new TV.Point (50, 200);
+	this.offset = new TV.Point (0, 0);
 	this.scale = 1.0;
 	this.layout = new TV.TreeLayout ();
 	this.mouse = null;
@@ -27,18 +27,59 @@ TV.TreeViewer.prototype.SetNodesSize = function (width, height)
 	});
 };
 
-TV.TreeViewer.prototype.SetNodesAutomaticSize = function ()
+TV.TreeViewer.prototype.SetNodesToAutomaticSize = function ()
 {
 	var drawer = this.drawer;
 	this.layout.EnumerateNodes (function (node) {
-		drawer.SetAutomaticNodeSize (node);
+		var size = drawer.GetNodeSize (node);
+		node.size.Set (size.x + 20, size.y + 10);
 	});
+};
+
+TV.TreeViewer.prototype.SetNodesToMaxSize = function ()
+{
+	var maxX = 0;
+	var maxY = 0;
+	var drawer = this.drawer;
+	this.layout.EnumerateNodes (function (node) {
+		var size = drawer.GetNodeSize (node);
+		maxX = Math.max (size.x, maxX);
+		maxY = Math.max (size.y, maxY);
+	});
+	this.layout.EnumerateNodes (function (node) {
+		node.size.Set (maxX + 20, maxY + 10);
+	});
+};
+
+TV.TreeViewer.prototype.UpdateAligned = function ()
+{
+	this.layout.CalculateLayout ();
+	this.AutoAlign ();
+	this.Draw ();
 };
 
 TV.TreeViewer.prototype.Update = function ()
 {
 	this.layout.CalculateLayout ();
 	this.Draw ();
+};
+
+TV.TreeViewer.prototype.AutoAlign = function ()
+{
+	var rootNode = this.layout.GetRootNode ();
+	if (rootNode === null) {
+		return;
+	}
+	
+	var layoutSize = this.layout.GetLayoutSize ();
+	var drawingSize = this.drawer.GetDrawingSize ();
+	if (layoutSize.x < drawingSize.x && layoutSize.y < drawingSize.y) {
+		this.offset.x = (drawingSize.x - layoutSize.x) / 2.0;
+		this.offset.y = (drawingSize.y - rootNode.size.y) / 2.0;
+	} else {
+		this.offset.x = 20;
+		this.offset.y = (drawingSize.y - rootNode.size.y) / 2.0;
+	}
 };
 
 TV.TreeViewer.prototype.Draw = function ()

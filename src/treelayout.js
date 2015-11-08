@@ -39,6 +39,11 @@ TV.TreeLayout.prototype.LoadData = function (data)
 	});	
 };
 
+TV.TreeLayout.prototype.GetRootNode = function ()
+{
+	return this.rootNode;
+};
+
 TV.TreeLayout.prototype.CalculateLayout = function ()
 {
 	function CalculateChildrenPosition (node, dimensions, treeData)
@@ -89,7 +94,23 @@ TV.TreeLayout.prototype.CalculateLayout = function ()
 	
 	this.EnumerateVisibleNodes (function (node) {
 		CalculateChildrenPosition (node, tree.dimensions, treeData);
-	});			
+	});
+};
+
+TV.TreeLayout.prototype.GetLayoutSize = function ()
+{
+	var min = new TV.Point (0, 0);
+	var max = new TV.Point (0, 0);
+	this.EnumerateVisibleNodes (function (node) {
+		min.x = Math.min (node.position.x, min.x);
+		min.y = Math.min (node.position.y, min.y);
+		max.x = Math.max (node.position.x + node.size.x, max.x);
+		max.y = Math.max (node.position.y + node.size.y, max.y);
+	});
+	var xDiff = Math.abs (max.x - min.x);
+	var yDiff = Math.abs (max.y - min.y);
+	var result = new TV.Point (xDiff, yDiff);
+	return result;
 };
 
 TV.TreeLayout.prototype.EnumerateNodes = function (onFound)

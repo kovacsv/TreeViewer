@@ -17,14 +17,20 @@ TV.CanvasDrawer.prototype.RegisterEvents = function (events)
 	this.canvas.addEventListener ('mousewheel', this.OnMouseWheel.bind (this), false);
 };
 
-TV.CanvasDrawer.prototype.SetAutomaticNodeSize = function (node)
+TV.CanvasDrawer.prototype.GetDrawingSize = function (node)
+{
+	var result = new TV.Point (this.canvas.width, this.canvas.height);
+	return result;
+};
+
+TV.CanvasDrawer.prototype.GetNodeSize = function (node)
 {
 	var fontSize = this.style.GetFontSize (1.0);
 	var fontFamily = this.style.GetFontFamily ();
 	this.context.font = fontSize + 'px ' + fontFamily;
 	var textSize = this.context.measureText (node.GetText ());
-	node.size.x = textSize.width + 30;
-	node.size.y = fontSize * 2;
+	var result = new TV.Point (textSize.width, fontSize);
+	return result;
 };
 
 TV.CanvasDrawer.prototype.DrawStart = function ()

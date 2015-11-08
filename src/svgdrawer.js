@@ -17,7 +17,14 @@ TV.SVGDrawer.prototype.RegisterEvents = function (events)
 	this.svg.addEventListener ('mousewheel', this.OnMouseWheel.bind (this), false);
 };
 
-TV.SVGDrawer.prototype.SetAutomaticNodeSize = function (node)
+TV.SVGDrawer.prototype.GetDrawingSize = function (node)
+{
+	var boundingBox = this.svg.getBoundingClientRect ();
+	var result = new TV.Point (boundingBox.width, boundingBox.height);
+	return result;
+};
+
+TV.SVGDrawer.prototype.GetNodeSize = function (node)
 {
 	var fontSize = this.style.GetFontSize (1.0);
 	var fontFamily = this.style.GetFontFamily ();
@@ -30,9 +37,9 @@ TV.SVGDrawer.prototype.SetAutomaticNodeSize = function (node)
 	this.svg.appendChild (measureText);
 	measureText.textContent = node.GetText ();
 	var textSize = measureText.getBBox ();
-	node.size.x = textSize.width + 30;
-	node.size.y = fontSize * 2;
+	var result = new TV.Point (textSize.width, fontSize);
 	this.svg.removeChild (measureText);
+	return result;	
 };
 
 TV.SVGDrawer.prototype.DrawStart = function ()

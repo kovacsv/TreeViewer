@@ -82,8 +82,8 @@
 			var drawer = new TV.SVGDrawer (svg, style);
 			var tree = new TV.TreeViewer (drawer);
 			tree.LoadData (json);
-			tree.SetNodesAutomaticSize ();
-			tree.Update ();
+			tree.SetNodesToAutomaticSize ();
+			tree.UpdateAligned ();
 		}
 	
 	    window.onload = function ()
@@ -95,7 +95,7 @@
 </head>
 
 <body>
-	<svg id="example" xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="400">
+	<svg id="example" xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="400" style="border:1px solid #000000;">
 	</svg>
 </body>
 
