@@ -20,7 +20,8 @@ TV.DrawStyle = function (parameters)
 
 TV.DrawStyle.prototype.GetFontSize = function (scale)
 {
-	return this.fontSize * scale;
+	var fontSize = this.fontSize * scale;
+	return Math.round (fontSize);
 };
 
 TV.DrawStyle.prototype.GetFontFamily = function ()
