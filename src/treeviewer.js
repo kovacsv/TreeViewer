@@ -82,6 +82,11 @@ TV.TreeViewer.prototype.AutoAlign = function ()
 	}
 };
 
+TV.TreeViewer.prototype.GetLayout = function ()
+{
+	return this.layout;
+};
+
 TV.TreeViewer.prototype.Draw = function ()
 {
 	var drawer = this.drawer;
