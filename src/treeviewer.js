@@ -29,7 +29,10 @@ TV.TreeViewer.prototype.SetNodesSize = function (width, height)
 
 TV.TreeViewer.prototype.SetNodesAutomaticSize = function ()
 {
-	this.drawer.SetNodesAutomaticSize (this.layout.EnumerateNodes.bind (this.layout));
+	var drawer = this.drawer;
+	this.layout.EnumerateNodes (function (node) {
+		drawer.SetAutomaticNodeSize (node);
+	});
 };
 
 TV.TreeViewer.prototype.Update = function ()

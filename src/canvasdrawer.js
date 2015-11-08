@@ -18,21 +18,14 @@ TV.CanvasDrawer.prototype.RegisterEvents = function (events)
 	this.canvas.addEventListener ('mousewheel', this.OnMouseWheel.bind (this), false);
 };
 
-TV.CanvasDrawer.prototype.SetNodesAutomaticSize = function (nodeEnumerator)
+TV.CanvasDrawer.prototype.SetAutomaticNodeSize = function (node)
 {
 	var fontSize = this.style.GetFontSize (1.0);
 	var fontFamily = this.style.GetFontFamily ();
-	var measureCanvas = document.createElement ('canvas');
-	var measureContext = measureCanvas.getContext ('2d');
-	measureContext.font = fontSize + 'px ' + fontFamily;
-	measureContext.textAlign = 'center';
-	measureContext.textBaseline = 'middle';
-
-	nodeEnumerator (function (node) {
-		var textSize = measureContext.measureText (node.GetText ());
-		node.size.x = textSize.width + 30;
-		node.size.y = fontSize * 2;
-	});
+	this.context.font = fontSize + 'px ' + fontFamily;
+	var textSize = this.context.measureText (node.GetText ());
+	node.size.x = textSize.width + 30;
+	node.size.y = fontSize * 2;
 };
 
 TV.CanvasDrawer.prototype.DrawStart = function ()

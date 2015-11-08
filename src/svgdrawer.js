@@ -17,26 +17,21 @@ TV.SVGDrawer.prototype.RegisterEvents = function (events)
 	this.svg.addEventListener ('mousewheel', this.OnMouseWheel.bind (this), false);
 };
 
-TV.SVGDrawer.prototype.SetNodesAutomaticSize = function (nodeEnumerator)
+TV.SVGDrawer.prototype.SetAutomaticNodeSize = function (node)
 {
 	var fontSize = this.style.GetFontSize (1.0);
 	var fontFamily = this.style.GetFontFamily ();
 	
 	var svgNamespace = 'http://www.w3.org/2000/svg';
 	var measureText = document.createElementNS (svgNamespace, 'text');
-	measureText.setAttributeNS (null, 'text-anchor', 'middle');
-	measureText.setAttributeNS (null, 'dominant-baseline', 'central');
-
 	measureText.setAttributeNS (null, 'font-size', fontSize + 'px');
 	measureText.setAttributeNS (null, 'font-family', fontFamily);
 
 	this.svg.appendChild (measureText);
-	nodeEnumerator (function (node) {
-		measureText.textContent = node.GetText ();
-		var textSize = measureText.getBBox ();
-		node.size.x = textSize.width + 30;
-		node.size.y = fontSize * 2;
-	});
+	measureText.textContent = node.GetText ();
+	var textSize = measureText.getBBox ();
+	node.size.x = textSize.width + 30;
+	node.size.y = fontSize * 2;
 	this.svg.removeChild (measureText);
 };
 
