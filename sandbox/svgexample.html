@@ -81,7 +81,8 @@
 			var style = new TV.DrawStyle ();
 			var drawer = new TV.SVGDrawer (svg, style);
 			var tree = new TV.TreeViewer (drawer);
-			tree.LoadJson (json);
+			tree.LoadData (json);
+			tree.Update ();
 		}
 	
 	    window.onload = function ()

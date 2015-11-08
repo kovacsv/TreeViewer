@@ -17,17 +17,17 @@ TV.SVGDrawer.prototype.RegisterEvents = function (events)
 	this.svg.addEventListener ('mousewheel', this.OnMouseWheel.bind (this), false);
 };
 
-TV.SVGDrawer.prototype.UpdateStart = function ()
+TV.SVGDrawer.prototype.DrawStart = function ()
 {
 
 };
 
-TV.SVGDrawer.prototype.UpdateEnd = function ()
+TV.SVGDrawer.prototype.DrawEnd = function ()
 {
 
 };
 
-TV.SVGDrawer.prototype.UpdateNode = function (node, offset, scale)
+TV.SVGDrawer.prototype.DrawNode = function (node, offset, scale)
 {
 	function DeleteNode (node, svg, svgNodes)
 	{

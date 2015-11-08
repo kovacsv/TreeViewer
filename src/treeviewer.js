@@ -15,30 +15,43 @@ TV.TreeViewer = function (drawer)
 	this.move = null;
 };
 
-TV.TreeViewer.prototype.LoadJson = function (jsonData)
+TV.TreeViewer.prototype.LoadData = function (data)
 {
-	this.layout.LoadJson (jsonData);
-	this.CalculateLayout ();
+	this.layout.LoadData (data);
 };
 
-TV.TreeViewer.prototype.CalculateLayout = function ()
+TV.TreeViewer.prototype.SetNodesSize = function (width, height)
 {
-	this.layout.CalculateLayout ();
-	this.Update ();
+	this.layout.EnumerateNodes (function (node) {
+		node.size.Set (width, height);
+	});
+};
+
+TV.TreeViewer.prototype.SetNodesAutomaticSize = function ()
+{
+	this.layout.EnumerateNodes (function (node) {
+		//
+	});
 };
 
 TV.TreeViewer.prototype.Update = function ()
 {
+	this.layout.CalculateLayout ();
+	this.Draw ();
+};
+
+TV.TreeViewer.prototype.Draw = function ()
+{
 	var drawer = this.drawer;
-	drawer.UpdateStart ();
+	drawer.DrawStart ();
 	
 	var offset = this.offset;
 	var scale = this.scale;
-	this.layout.EnumerateNodes (function (node) {
-		drawer.UpdateNode (node, offset, scale);
+	this.layout.EnumerateVisibleNodes (function (node) {
+		drawer.DrawNode (node, offset, scale);
 	});
 	
-	drawer.UpdateEnd ();
+	drawer.DrawEnd ();
 };
 
 TV.TreeViewer.prototype.SearchNode = function (x, y)
@@ -51,7 +64,7 @@ TV.TreeViewer.prototype.SearchNode = function (x, y)
 	var origX = TV.ScreenToModel (x, this.offset.x, this.scale);
 	var origY = TV.ScreenToModel (y, this.offset.y, this.scale);
 	var result = null;
-	this.layout.EnumerateNodes (function (node) {
+	this.layout.EnumerateVisibleNodes (function (node) {
 		if (result !== null) {
 			return;
 		}
@@ -78,7 +91,7 @@ TV.TreeViewer.prototype.OnMouseUp = function (x, y)
 			} else {
 				node.Expand ();
 			}
-			this.CalculateLayout ();
+			this.Update ();
 		}
 	}
 	
@@ -93,7 +106,7 @@ TV.TreeViewer.prototype.OnMouseMove = function (x, y)
 		this.offset.y += y - this.mouse.y;
 		this.mouse.Set (x, y);
 		this.move = true;
-		this.Update ();
+		this.Draw ();
 	}
 };
 
@@ -117,5 +130,5 @@ TV.TreeViewer.prototype.OnMouseWheel = function (x, y, delta)
 	this.offset.y += origY * scaleDiff;
 	this.scale = newScale;
 	
-	this.Update ();
+	this.Draw ();
 };

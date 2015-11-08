@@ -18,7 +18,7 @@ TV.CanvasDrawer.prototype.RegisterEvents = function (events)
 	this.canvas.addEventListener ('mousewheel', this.OnMouseWheel.bind (this), false);
 };
 
-TV.CanvasDrawer.prototype.UpdateStart = function ()
+TV.CanvasDrawer.prototype.DrawStart = function ()
 {
 	this.context.clearRect (0, 0, this.canvas.width, this.canvas.height);
 	this.context.fillStyle = '#ffffff';
@@ -26,12 +26,12 @@ TV.CanvasDrawer.prototype.UpdateStart = function ()
 	this.visibility = {};
 };
 
-TV.CanvasDrawer.prototype.UpdateEnd = function ()
+TV.CanvasDrawer.prototype.DrawEnd = function ()
 {
 	this.visibility = null;
 };
 
-TV.CanvasDrawer.prototype.UpdateNode = function (node, offset, scale)
+TV.CanvasDrawer.prototype.DrawNode = function (node, offset, scale)
 {
 	function GetValue (original, offset, scale)
 	{
@@ -70,6 +70,7 @@ TV.CanvasDrawer.prototype.UpdateNode = function (node, offset, scale)
 			return visible;
 		}
 		
+		// TODO: edge is not visibel between invisible nodes
 		var visible = IsVisibleNode (node, width, height, offset, scale, visibility);
 		var parentVisible = IsVisibleNode (node.GetParent (), width, height, offset, scale, visibility);
 		return visible || parentVisible;

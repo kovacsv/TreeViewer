@@ -84,7 +84,9 @@
 			var style = new TV.DrawStyle ();
 			var drawer = new TV.CanvasDrawer (canvas, style);
 			var tree = new TV.TreeViewer (drawer);
-			tree.LoadJson (json);
+			tree.LoadData (json);
+			tree.SetNodesAutomaticSize ();
+			tree.Update ();
 		}
 	
 	    window.onload = function ()
