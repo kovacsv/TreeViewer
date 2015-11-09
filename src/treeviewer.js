@@ -60,6 +60,11 @@ TV.TreeViewer.prototype.SetNodesToMaxSize = function ()
 	});
 };
 
+TV.TreeViewer.prototype.SetNodeSpacing = function (horizontal, vertical)
+{
+	this.layout.SetNodeSpacing (horizontal, vertical);
+};
+
 TV.TreeViewer.prototype.Update = function ()
 {
 	this.layout.CalculateLayout ();

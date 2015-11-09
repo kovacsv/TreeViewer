@@ -126,6 +126,17 @@
 			viewer.Update ();
 		}
 
+		function Example6 ()
+		{
+			var canvas = document.getElementById ('example6');
+			var style = new TV.DrawStyle ();
+			var drawer = new TV.CanvasDrawer (canvas, style);
+			var viewer = new TV.TreeViewer (drawer);
+			viewer.LoadData (treeData);
+			viewer.SetNodeSpacing (80, 10);
+			viewer.Update ();
+		}
+
 		function Load ()
 		{
 			SyntaxHighlighter.highlight ();
@@ -134,6 +145,7 @@
 			Example3 ();
 			Example4 ();
 			Example5 ();
+			Example6 ();
 		}
 	
 	    window.onload = function ()
@@ -216,7 +228,7 @@ viewer.Update (); // update the canvas
 		
 		<p>This will generate the above tree.</p>
 
-		<div class="title2">Set colors</div>
+		<div class="title2">Modify colors</div>
 		<p>
 			If you would like to modify the colors of the tree, you can fill the DrawStyle structure with the desired values.
 			So with the below code you can generate a very ugly tree.
@@ -237,9 +249,9 @@ var style = new TV.DrawStyle ({
 </pre>
 		<canvas id="example2" width="800" height="400"></canvas>
 
-		<div class="title2">Set node size</div>
+		<div class="title2">Modify layout</div>
 		<p>
-			You can modify node size automatically, or to custom values. To calculate automatic node size, you have to
+			You can modify node size to calculate automatically, or to custom values. To calculate automatic node size, you have to
 			call a function before update. There are three options.
 		</p>
 		
@@ -273,6 +285,14 @@ viewer.Update ();
 </pre>
 		<canvas id="example5" width="800" height="500"></canvas>
 
+		<p>Set nodes vertical and horizontal spacing.</p>		
+<pre class="brush: js; toolbar: false;">
+viewer.LoadData (treeData);
+viewer.SetNodeSpacing (80, 10);
+viewer.Update ();
+</pre>
+		<canvas id="example6" width="800" height="400"></canvas>
+		
 	</div>
 </body>
 
