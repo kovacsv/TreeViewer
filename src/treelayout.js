@@ -6,8 +6,8 @@ TV.TreeLayout = function ()
 	this.dimensions = {
 		defaultNodeWidth : 100,
 		defaultNodeHeight : 25,
-		verticalPadding : 20,
-		horizontalPadding : 50
+		nodeVerticalSpace : 20,
+		nodeHorizontalPadding : 50
 	};
 };
 
@@ -58,12 +58,12 @@ TV.TreeLayout.prototype.CalculateLayout = function ()
 			var count = 0;
 			node.EnumerateVisibleChildren (function (child) {
 				height += GetVerticalHeight (child, dimensions, verticalHeightCache);
-				height += dimensions.verticalPadding;
+				height += dimensions.nodeVerticalSpace;
 				count += 1;
 			});
 			
 			if (count !== 0) {
-				height -= dimensions.verticalPadding;
+				height -= dimensions.nodeVerticalSpace;
 			} else {
 				height = node.size.y;
 			}
@@ -77,9 +77,9 @@ TV.TreeLayout.prototype.CalculateLayout = function ()
 
 		node.EnumerateVisibleChildren (function (child) {
 			var verticalHeight = GetVerticalHeight (child, dimensions, treeData.verticalHeightCache);
-			child.position.x = node.position.x + node.size.x + dimensions.horizontalPadding;
+			child.position.x = node.position.x + node.size.x + dimensions.nodeHorizontalPadding;
 			child.position.y = node.position.y + offset + (verticalHeight - node.size.y) / 2.0;
-			offset += verticalHeight + dimensions.verticalPadding;
+			offset += verticalHeight + dimensions.nodeVerticalSpace;
 		});
 	}
 

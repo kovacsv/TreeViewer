@@ -25,10 +25,33 @@
 
 	<script type="text/javascript">
 		var treeData = {
-			text : 'alma',
+			text : 'animal',
 			children : [
 				{
-					text : 'korte'
+					text : 'mammal',
+					children : [
+						{
+							text : 'feline',
+							children : [
+								{text : 'lion'},
+								{text : 'tiger'}
+							]
+						},
+						{text : 'monkey'}
+					]
+				},
+				{
+					text : 'reptile',
+					children : [
+						{text : 'snake'},
+						{text : 'turtle'}
+					]
+				},
+				{
+					text : 'insect',
+					children : [
+						{text : 'snake'}
+					]
 				}
 			]
 		};
@@ -38,15 +61,37 @@
 			var canvas = document.getElementById ('example1');
 			var style = new TV.DrawStyle ();
 			var drawer = new TV.CanvasDrawer (canvas, style);
-			var tree = new TV.TreeViewer (drawer);
-			tree.LoadData (treeData);
-			tree.UpdateAligned ();
+			var viewer = new TV.TreeViewer (drawer);
+			viewer.LoadData (treeData);
+			viewer.Update ();
 		}
 	
+		function Example2 ()
+		{
+			var canvas = document.getElementById ('example2');
+			var style = new TV.DrawStyle ({
+				fontSize : 12,
+				fontFamily : 'Arial',
+				lineWidth : 1,
+				textColorNoChildren : '#008800',
+				textColorWithChildren : '#880000',
+				rectColorNoChildren : '#00cc00',
+				rectColorWithChildren : '#cc0000',
+				nodeColorNoChildren : '#eeffee',
+				nodeColorWithChildren : '#ffeeee',
+				lineColor : '#0000cc'			
+			});
+			var drawer = new TV.CanvasDrawer (canvas, style);
+			var viewer = new TV.TreeViewer (drawer);
+			viewer.LoadData (treeData);
+			viewer.Update ();
+		}
+
 		function Load ()
 		{
 			SyntaxHighlighter.highlight ();
 			Example1 ();
+			Example2 ();
 		}
 	
 	    window.onload = function ()
@@ -69,8 +114,9 @@
 				<li>Draw to canvas or svg.</li>
 			</ul>
 		</p>
+		<canvas id="example1" width="800" height="400"></canvas>
 
-		<div class="title2">How to use?</div>
+		<div class="title2">Basic usage</div>
 		<p>
 			First of all, you need to download TreeViewer, and include it to your project.
 <pre class="brush: js; toolbar: false;">
@@ -80,32 +126,74 @@
 			This example used almost everywhere in this tutorial.
 <pre class="brush: js; toolbar: false;">
 var treeData = {
-	text : 'alma',
+	text : 'animal',
 	children : [
 		{
-			text : 'korte'
+			text : 'mammal',
+			children : [
+				{
+					text : 'feline',
+					children : [
+						{text : 'lion'},
+						{text : 'tiger'}
+					]
+				},
+				{text : 'monkey'}
+			]
+		},
+		{
+			text : 'reptile',
+			children : [
+				{text : 'snake'},
+				{text : 'turtle'}
+			]
+		},
+		{
+			text : 'insect',
+			children : [
+				{text : 'snake'}
+			]
 		}
 	]
 };
 </pre>
-			Almost there. We need a canvas or svg element to draw to. The code differs a bit for svg elements,
-			you will find examples for this later.
+			Almost there. We need a canvas element to draw to.
 <pre class="brush: js; toolbar: false;">
 <canvas id="example1" width="800" height="300"></canvas>
 </pre>
-			Finally, you need to initialize the viewer. The most easy way is the following. The elements
-			of it will be explained later in this tutorial.
+			Finally, you need to initialize the viewer. The most easy way is to do the following when the page is loaded.
 <pre class="brush: js; toolbar: false;">
 var canvas = document.getElementById ('example1');
 var style = new TV.DrawStyle (); // draw with default settings
 var drawer = new TV.CanvasDrawer (canvas, style); // we draw on a canvas
-var tree = new TV.TreeViewer (drawer);
-tree.LoadData (treeData);
-tree.UpdateAligned ();
+var viewer = new TV.TreeViewer (drawer); // initialize viewer
+viewer.LoadData (treeData); // load the previously defined data
+viewer.Update (); // update the canvas
 </pre>
 		</p>
 		
-		<canvas id="example1" width="800" height="300"></canvas>
+		<p>This will generate the above tree.</p>
+
+		<div class="title2">Set colors</div>
+		<p>
+			If you would like to modify the colors of the tree, you can fill the DrawStyle structure with the desired values.
+			So with the below code you can generate a very ugly tree.
+		</p>
+<pre class="brush: js; toolbar: false;">
+var style = new TV.DrawStyle ({
+	fontSize : 12,
+	fontFamily : 'Arial',
+	lineWidth : 1,
+	textColorNoChildren : '#008800',
+	textColorWithChildren : '#880000',
+	rectColorNoChildren : '#00cc00',
+	rectColorWithChildren : '#cc0000',
+	nodeColorNoChildren : '#eeffee',
+	nodeColorWithChildren : '#ffeeee',
+	lineColor : '#0000cc'			
+});
+</pre>
+		<canvas id="example2" width="800" height="400"></canvas>
 	</div>
 </body>
 

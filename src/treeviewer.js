@@ -11,6 +11,7 @@ TV.TreeViewer = function (drawer)
 	this.offset = new TV.Point (0, 0);
 	this.scale = 1.0;
 	this.layout = new TV.TreeLayout ();
+	this.align = false;
 	this.mouse = null;
 	this.move = null;
 
@@ -20,6 +21,7 @@ TV.TreeViewer = function (drawer)
 TV.TreeViewer.prototype.LoadData = function (data)
 {
 	this.layout.LoadData (data);
+	this.align = true;
 };
 
 TV.TreeViewer.prototype.SetNodesSize = function (width, height)
@@ -53,16 +55,13 @@ TV.TreeViewer.prototype.SetNodesToMaxSize = function ()
 	});
 };
 
-TV.TreeViewer.prototype.UpdateAligned = function ()
-{
-	this.layout.CalculateLayout ();
-	this.AutoAlign ();
-	this.Draw ();
-};
-
 TV.TreeViewer.prototype.Update = function ()
 {
 	this.layout.CalculateLayout ();
+	if (this.align) {
+		this.AutoAlign ();
+		this.align = false;
+	}
 	this.Draw ();
 };
 
