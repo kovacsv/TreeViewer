@@ -19,11 +19,18 @@ html, body
 
 div.title1
 {
-	font-size : 25px;
-	margin-bottom : 15px;
+	font-size : 27px;
+	margin-bottom : 25px;
 }
 
 div.title2
+{
+	font-size : 23px;
+	margin-top : 25px;
+	margin-bottom : 15px;
+}
+
+div.title3
 {
 	font-size : 19px;
 	margin-top : 15px;
@@ -48,4 +55,21 @@ li
 canvas
 {
 	border : 1px solid #dddddd;
+}
+
+svg
+{
+	border : 1px solid #dddddd;
+}
+
+a
+{
+	color : #225588;
+	background : transparent;
+	text-decoration : none;
+}
+
+a:hover
+{
+	text-decoration : underline;
 }
