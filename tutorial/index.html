@@ -86,12 +86,54 @@
 			viewer.LoadData (treeData);
 			viewer.Update ();
 		}
+		
+		function Example3 ()
+		{
+			var canvas = document.getElementById ('example3');
+			var style = new TV.DrawStyle ();
+			var drawer = new TV.CanvasDrawer (canvas, style);
+			var viewer = new TV.TreeViewer (drawer);
+			viewer.LoadData (treeData);
+			viewer.SetNodesToAutomaticSize ();
+			viewer.Update ();
+		}
+
+		function Example4 ()
+		{
+			var canvas = document.getElementById ('example4');
+			var style = new TV.DrawStyle ();
+			var drawer = new TV.CanvasDrawer (canvas, style);
+			var viewer = new TV.TreeViewer (drawer);
+			viewer.LoadData (treeData);
+			viewer.SetNodesToMaxSize ();
+			viewer.Update ();
+		}
+
+		function Example5 ()
+		{
+			var canvas = document.getElementById ('example5');
+			var style = new TV.DrawStyle ();
+			var drawer = new TV.CanvasDrawer (canvas, style);
+			var viewer = new TV.TreeViewer (drawer);
+			viewer.LoadData (treeData);
+			var xSize = 60;
+			var ySize = 20;
+			viewer.EnumerateNodes (function (node) {
+				node.size.Set (xSize, ySize);
+				xSize += 10;
+				ySize += 5;
+			});
+			viewer.Update ();
+		}
 
 		function Load ()
 		{
 			SyntaxHighlighter.highlight ();
 			Example1 ();
 			Example2 ();
+			Example3 ();
+			Example4 ();
+			Example5 ();
 		}
 	
 	    window.onload = function ()
@@ -194,6 +236,43 @@ var style = new TV.DrawStyle ({
 });
 </pre>
 		<canvas id="example2" width="800" height="400"></canvas>
+
+		<div class="title2">Set node size</div>
+		<p>
+			You can modify node size automatically, or to custom values. To calculate automatic node size, you have to
+			call a function before update. There are three options.
+		</p>
+		
+		<p>Calculate automatic size for each node:</p>		
+<pre class="brush: js; toolbar: false;">
+viewer.LoadData (treeData);
+viewer.SetNodesToAutomaticSize ();
+viewer.Update ();
+</pre>
+		<canvas id="example3" width="800" height="400"></canvas>
+
+		<p>Calculate the max size, and use it for all nodes:</p>		
+<pre class="brush: js; toolbar: false;">
+viewer.LoadData (treeData);
+viewer.SetNodesToMaxSize ();
+viewer.Update ();
+</pre>
+		<canvas id="example4" width="800" height="300"></canvas>
+
+		<p>Set each node size manually:</p>		
+<pre class="brush: js; toolbar: false;">
+viewer.LoadData (treeData);
+var xSize = 60;
+var ySize = 20;
+viewer.EnumerateNodes (function (node) {
+	node.size.Set (xSize, ySize);
+	xSize += 10;
+	ySize += 5;
+});
+viewer.Update ();
+</pre>
+		<canvas id="example5" width="800" height="500"></canvas>
+
 	</div>
 </body>
 

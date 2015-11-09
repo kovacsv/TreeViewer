@@ -24,6 +24,11 @@ TV.TreeViewer.prototype.LoadData = function (data)
 	this.align = true;
 };
 
+TV.TreeViewer.prototype.EnumerateNodes = function (onFound)
+{
+	this.layout.EnumerateNodes (onFound);
+};
+
 TV.TreeViewer.prototype.SetNodesSize = function (width, height)
 {
 	this.layout.EnumerateNodes (function (node) {
@@ -72,15 +77,14 @@ TV.TreeViewer.prototype.AutoAlign = function ()
 		return;
 	}
 	
-	var layoutSize = this.layout.GetLayoutSize ();
+	var layoutBox = this.layout.GetLayoutBox ();
 	var drawingSize = this.drawer.GetDrawingSize ();
-	if (layoutSize.x < drawingSize.x && layoutSize.y < drawingSize.y) {
-		this.offset.x = (drawingSize.x - layoutSize.x) / 2.0;
-		this.offset.y = (drawingSize.y - rootNode.size.y) / 2.0;
+	if (layoutBox.width < drawingSize.x) {
+		this.offset.x = (drawingSize.x - layoutBox.width) / 2.0;
 	} else {
 		this.offset.x = 20;
-		this.offset.y = (drawingSize.y - rootNode.size.y) / 2.0;
 	}
+	this.offset.y = (drawingSize.y - layoutBox.height) / 2.0 - layoutBox.y;
 };
 
 TV.TreeViewer.prototype.GetLayout = function ()

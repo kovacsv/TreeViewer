@@ -97,7 +97,7 @@ TV.TreeLayout.prototype.CalculateLayout = function ()
 	});
 };
 
-TV.TreeLayout.prototype.GetLayoutSize = function ()
+TV.TreeLayout.prototype.GetLayoutBox = function ()
 {
 	var min = new TV.Point (0, 0);
 	var max = new TV.Point (0, 0);
@@ -109,7 +109,12 @@ TV.TreeLayout.prototype.GetLayoutSize = function ()
 	});
 	var xDiff = Math.abs (max.x - min.x);
 	var yDiff = Math.abs (max.y - min.y);
-	var result = new TV.Point (xDiff, yDiff);
+	var result = {
+		x : min.x,
+		y : min.y,
+		width : xDiff,
+		height : yDiff
+	};
 	return result;
 };
 
