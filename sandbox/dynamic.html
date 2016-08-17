@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<script type="text/javascript" src="../src/core.js"></script>
+	<script type="text/javascript" src="../src/treenode.js"></script>
+	<script type="text/javascript" src="../src/treelayout.js"></script>
+	<script type="text/javascript" src="../src/treeviewer.js"></script>
+	<script type="text/javascript" src="../src/drawstyle.js"></script>
+	<script type="text/javascript" src="../src/svgdrawer.js"></script>
+	<script type="text/javascript" src="../src/canvasdrawer.js"></script>
+	<title>Example</title>
+	<style>
+		html, body
+		{
+		}
+		
+		textarea
+		{
+			width : 800px;
+			height : 200px;
+		}
+		
+		canvas
+		{
+			border : 1px solid #cccccc;
+			display : block;
+		}
+	</style>
+
+	<script type="text/javascript">
+		var TreeViewer = function ()
+		{
+			this.textArea = null;
+			this.canvas = null;
+			this.style = null;
+			this.drawer = null;
+			this.viewer = null;
+		}
+	
+		TreeViewer.prototype.Init = function ()
+		{
+			this.textArea = document.getElementById ('textarea');
+			this.canvas = document.getElementById ('canvas');
+
+			this.style = new TV.DrawStyle ();
+			this.drawer = new TV.CanvasDrawer (this.canvas, this.style);
+			this.viewer = new TV.TreeViewer (this.drawer);
+
+			this.textArea.addEventListener ('paste', this.LoadTree.bind (this));
+			this.textArea.addEventListener ('keyup', this.LoadTree.bind (this));
+			
+			this.LoadTree ();
+		}
+	
+		TreeViewer.prototype.LoadTree = function ()
+		{
+			var json = null;
+			try {
+				json = JSON.parse (this.textArea.value);
+			} catch (e) {
+			
+			}
+			if (json != null) {
+				this.viewer.LoadData (json);
+				this.viewer.SetNodesToAutomaticSize ();
+				this.viewer.Update ();
+			}
+		}
+		
+		TreeViewer.prototype.Resize = function ()
+		{
+			//this.canvas.width = 300;
+			//this.canvas.height = 300;
+			//this.canvas.style.width = this.canvas.width + 'px';
+			//this.canvas.style.height = this.canvas.height + 'px';
+		}		
+
+		function Load ()
+		{
+			var viewer = new TreeViewer ();
+			viewer.Init ();
+		}
+	
+	    window.onload = function ()
+		{
+			Load ();			
+		}
+	</script>
+
+</head>
+
+<body>
+	<textarea id="textarea">
+{
+	"text" : "alma"
+}
+	</textarea>
+	<canvas id="canvas" width="800" height="400"></canvas>
+</body>
+
+</html>
