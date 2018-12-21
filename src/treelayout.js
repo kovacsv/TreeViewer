@@ -16,8 +16,8 @@ TV.TreeLayout.prototype.LoadData = function (data)
 	function LoadNode (tree, data, parent)
 	{
 		var node = new TV.TreeNode (tree.nodeId, data.text, parent);
-		node.position.Set (0, 0);
-		node.size.Set (100, 25);
+		node.SetPosition (0, 0);
+		node.SetSize (100, 25);
 		tree.nodeId += 1;
 
 		var children = data.children;
@@ -35,7 +35,7 @@ TV.TreeLayout.prototype.LoadData = function (data)
 	var width = this.dimensions.defaultNodeWidth;
 	var height = this.dimensions.defaultNodeHeight;
 	this.EnumerateNodes (function (node) {
-		node.size.Set (width, height);
+		node.SetSize (width, height);
 	});	
 };
 

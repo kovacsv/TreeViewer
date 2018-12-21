@@ -46,9 +46,7 @@
 		function Example1 ()
 		{
 			var canvas = document.getElementById ('example1');
-			var style = new TV.DrawStyle ();
-			var drawer = new TV.CanvasDrawer (canvas, style);
-			var viewer = new TV.TreeViewer (drawer);
+			var viewer = TV.CreateCanvasViewer (canvas);
 			viewer.LoadData (treeData);
 			viewer.Update ();
 		}
@@ -56,7 +54,7 @@
 		function Example2 ()
 		{
 			var canvas = document.getElementById ('example2');
-			var style = new TV.DrawStyle ({
+			var viewer = TV.CreateCanvasViewer (canvas, {
 				fontSize : 12,
 				fontFamily : 'Arial',
 				lineWidth : 1,
@@ -68,8 +66,6 @@
 				nodeColorWithChildren : '#ffeeee',
 				lineColor : '#0000cc'			
 			});
-			var drawer = new TV.CanvasDrawer (canvas, style);
-			var viewer = new TV.TreeViewer (drawer);
 			viewer.LoadData (treeData);
 			viewer.Update ();
 		}
@@ -77,9 +73,7 @@
 		function Example3 ()
 		{
 			var canvas = document.getElementById ('example3');
-			var style = new TV.DrawStyle ();
-			var drawer = new TV.CanvasDrawer (canvas, style);
-			var viewer = new TV.TreeViewer (drawer);
+			var viewer = TV.CreateCanvasViewer (canvas);
 			viewer.LoadData (treeData);
 			viewer.SetNodesToAutomaticSize ();
 			viewer.Update ();
@@ -88,9 +82,7 @@
 		function Example4 ()
 		{
 			var canvas = document.getElementById ('example4');
-			var style = new TV.DrawStyle ();
-			var drawer = new TV.CanvasDrawer (canvas, style);
-			var viewer = new TV.TreeViewer (drawer);
+			var viewer = TV.CreateCanvasViewer (canvas);
 			viewer.LoadData (treeData);
 			viewer.SetNodesToMaxSize ();
 			viewer.Update ();
@@ -99,9 +91,7 @@
 		function Example5 ()
 		{
 			var canvas = document.getElementById ('example5');
-			var style = new TV.DrawStyle ();
-			var drawer = new TV.CanvasDrawer (canvas, style);
-			var viewer = new TV.TreeViewer (drawer);
+			var viewer = TV.CreateCanvasViewer (canvas);
 			viewer.LoadData (treeData);
 			var xSize = 60;
 			var ySize = 20;
@@ -116,9 +106,7 @@
 		function Example6 ()
 		{
 			var canvas = document.getElementById ('example6');
-			var style = new TV.DrawStyle ();
-			var drawer = new TV.CanvasDrawer (canvas, style);
-			var viewer = new TV.TreeViewer (drawer);
+			var viewer = TV.CreateCanvasViewer (canvas);
 			viewer.LoadData (treeData);
 			viewer.SetNodeSpacing (100, 10);
 			viewer.Update ();
@@ -127,9 +115,7 @@
 		function Example7 ()
 		{
 			var svg = document.getElementById ('example7');
-			var style = new TV.DrawStyle ();
-			var drawer = new TV.SVGDrawer (svg, style);
-			var viewer = new TV.TreeViewer (drawer);
+			var viewer = TV.CreateSVGViewer (svg);
 			viewer.LoadData (treeData);
 			viewer.Update ();
 		}
@@ -213,9 +199,7 @@ var treeData = {
 			Finally, you need to initialize the viewer when your page is loaded.
 <pre class="brush: js; toolbar: false;">
 var canvas = document.getElementById ('example');
-var style = new TV.DrawStyle (); // draw with default settings
-var drawer = new TV.CanvasDrawer (canvas, style); // we draw on a canvas
-var viewer = new TV.TreeViewer (drawer); // initialize viewer
+var viewer = TV.CreateCanvasViewer (canvas); // initialize viewer
 viewer.LoadData (treeData); // load the previously defined data
 viewer.Update (); // update the canvas
 </pre>
@@ -225,11 +209,11 @@ viewer.Update (); // update the canvas
 
 		<div class="title2">Modify colors</div>
 		<p>
-			If you would like to modify the colors of the tree, you can fill the DrawStyle structure with the desired values.
+			If you would like to modify the colors of the tree, you can fill the style parameters structure with the desired values.
 			So with the below code you can generate a colorized tree.
 		</p>
 <pre class="brush: js; toolbar: false;">
-var style = new TV.DrawStyle ({
+var viewer = TV.CreateCanvasViewer (canvas, {
 	fontSize : 12,
 	fontFamily : 'Arial',
 	lineWidth : 1,
@@ -299,9 +283,7 @@ viewer.Update ();
 
 <pre class="brush: js; toolbar: false;">
 var svg = document.getElementById ('example');
-var style = new TV.DrawStyle ();
-var drawer = new TV.SVGDrawer (svg, style); // we draw in svg
-var viewer = new TV.TreeViewer (drawer);
+var viewer = TV.CreateSVGViewer (canvas);
 viewer.LoadData (treeData);
 viewer.Update ();		
 </pre>

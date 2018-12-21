@@ -38,7 +38,8 @@ def Main (argv):
 		'../src/treeviewer.js',
 		'../src/drawstyle.js',
 		'../src/svgdrawer.js',
-		'../src/canvasdrawer.js'
+		'../src/canvasdrawer.js',
+		'../src/createviewer.js'
 	]
 	
 	MergeFiles (files, mergedFileName)

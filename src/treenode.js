@@ -44,9 +44,19 @@ TV.TreeNode.prototype.GetPosition = function ()
 	return this.position;
 };
 
+TV.TreeNode.prototype.SetPosition = function (x, y)
+{
+	this.position.Set (x, y);
+};
+
 TV.TreeNode.prototype.GetSize = function ()
 {
 	return this.size;
+};
+
+TV.TreeNode.prototype.SetSize = function (x, y)
+{
+	this.size.Set (x, y);
 };
 
 TV.TreeNode.prototype.IsExpanded = function ()

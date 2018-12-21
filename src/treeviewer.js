@@ -32,7 +32,7 @@ TV.TreeViewer.prototype.EnumerateNodes = function (onFound)
 TV.TreeViewer.prototype.SetNodesSize = function (width, height)
 {
 	this.layout.EnumerateNodes (function (node) {
-		node.size.Set (width, height);
+		node.SetSize (width, height);
 	});
 };
 
@@ -40,8 +40,8 @@ TV.TreeViewer.prototype.SetNodesToAutomaticSize = function ()
 {
 	var drawer = this.drawer;
 	this.layout.EnumerateNodes (function (node) {
-		var size = drawer.GetNodeSize (node);
-		node.size.Set (size.x + 20, size.y + 10);
+		var size = drawer.GetNodeMinSize (node);
+		node.SetSize (size.x + 20, size.y + 10);
 	});
 };
 
@@ -51,12 +51,12 @@ TV.TreeViewer.prototype.SetNodesToMaxSize = function ()
 	var maxY = 0;
 	var drawer = this.drawer;
 	this.layout.EnumerateNodes (function (node) {
-		var size = drawer.GetNodeSize (node);
+		var size = drawer.GetNodeMinSize (node);
 		maxX = Math.max (size.x, maxX);
 		maxY = Math.max (size.y, maxY);
 	});
 	this.layout.EnumerateNodes (function (node) {
-		node.size.Set (maxX + 20, maxY + 10);
+		node.SetSize (maxX + 20, maxY + 10);
 	});
 };
 

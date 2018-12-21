@@ -23,7 +23,7 @@ TV.CanvasDrawer.prototype.GetDrawingSize = function (node)
 	return result;
 };
 
-TV.CanvasDrawer.prototype.GetNodeSize = function (node)
+TV.CanvasDrawer.prototype.GetNodeMinSize = function (node)
 {
 	var fontSize = this.style.GetFontSize (1.0);
 	var fontFamily = this.style.GetFontFamily ();

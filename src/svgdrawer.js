@@ -24,7 +24,7 @@ TV.SVGDrawer.prototype.GetDrawingSize = function (node)
 	return result;
 };
 
-TV.SVGDrawer.prototype.GetNodeSize = function (node)
+TV.SVGDrawer.prototype.GetNodeMinSize = function (node)
 {
 	var fontSize = this.style.GetFontSize (1.0);
 	var fontFamily = this.style.GetFontFamily ();

@@ -12,6 +12,7 @@
 	<script type="text/javascript" src="../src/drawstyle.js"></script>
 	<script type="text/javascript" src="../src/svgdrawer.js"></script>
 	<script type="text/javascript" src="../src/canvasdrawer.js"></script>
+	<script type="text/javascript" src="../src/createviewer.js"></script>
 	<script type="text/javascript" src="examplejson.js"></script>
 	<title>Example</title>
 
@@ -19,9 +20,7 @@
 		function Load ()
 		{
 			var svg = document.getElementById ('example');
-			var style = new TV.DrawStyle ();
-			var drawer = new TV.SVGDrawer (svg, style);
-			var tree = new TV.TreeViewer (drawer);
+			var tree = TV.CreateSVGViewer (svg);
 			tree.LoadData (exampleJson);
 			tree.SetNodesToAutomaticSize ();
 			tree.Update ();
