@@ -24,6 +24,11 @@ TV.TreeViewer.prototype.LoadData = function (data)
 	this.align = true;
 };
 
+TV.TreeViewer.prototype.AddNode = function (data, parent)
+{
+	return this.layout.AddNode (data, parent);
+};
+
 TV.TreeViewer.prototype.EnumerateNodes = function (onFound)
 {
 	this.layout.EnumerateNodes (onFound);

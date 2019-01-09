@@ -15,11 +15,7 @@ TV.TreeLayout.prototype.LoadData = function (data)
 {
 	function LoadNode (tree, data, parent)
 	{
-		var node = new TV.TreeNode (tree.nodeId, data.text, parent);
-		node.SetPosition (0, 0);
-		node.SetSize (100, 25);
-		tree.nodeId += 1;
-
+		var node = tree.AddNode (data, parent);
 		var children = data.children;
 		if (children !== undefined) {
 			var i;
@@ -27,16 +23,26 @@ TV.TreeLayout.prototype.LoadData = function (data)
 				LoadNode (tree, children[i], node);
 			}
 		}
-		
 		return node;
 	}
 
-	this.rootNode = LoadNode (this, data, null);
+	LoadNode (this, data, null);
+};
+
+TV.TreeLayout.prototype.AddNode = function (data, parent)
+{
+	var node = new TV.TreeNode (this.nodeId, data.text, parent);
+	this.nodeId += 1;
+
 	var width = this.dimensions.defaultNodeWidth;
 	var height = this.dimensions.defaultNodeHeight;
-	this.EnumerateNodes (function (node) {
-		node.SetSize (width, height);
-	});	
+	node.SetPosition (0, 0);
+	node.SetSize (width, height);
+
+	if (parent === null) {
+		this.rootNode = node;
+	}
+	return node;
 };
 
 TV.TreeLayout.prototype.GetRootNode = function ()
