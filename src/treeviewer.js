@@ -1,6 +1,7 @@
-TV.TreeViewer = function (drawer)
+TV.TreeViewer = function (drawer, callbacks)
 {
 	this.drawer = drawer;
+	this.callbacks = callbacks;
 	this.drawer.RegisterEvents ({
 		onMouseDown : this.OnMouseDown.bind (this),
 		onMouseUp : this.OnMouseUp.bind (this),
@@ -148,10 +149,13 @@ TV.TreeViewer.prototype.OnMouseUp = function (x, y)
 	if (!this.move) {
 		var node = this.SearchNode (x, y);
 		if (node !== null) {
-			if (node.IsExpanded ()) {
-				node.Collapse ();
-			} else {
-				node.Expand ();
+			var handled = this.CallBack ('onNodeClick', node);
+			if (!handled) {
+				if (node.IsExpanded ()) {
+					node.Collapse ();
+				} else {
+					node.Expand ();
+				}
 			}
 			this.Update ();
 		}
@@ -198,4 +202,15 @@ TV.TreeViewer.prototype.OnMouseWheel = function (x, y, delta)
 TV.TreeViewer.prototype.OnResize = function ()
 {
 	this.Draw ();
+};
+
+TV.TreeViewer.prototype.CallBack = function (callbackName, node)
+{
+	if (this.callbacks !== undefined && this.callbacks !== null) {
+		if (this.callbacks[callbackName] !== undefined && this.callbacks[callbackName] !== null) {
+			this.callbacks[callbackName] (node);
+			return true;
+		}
+	}
+	return false;
 };

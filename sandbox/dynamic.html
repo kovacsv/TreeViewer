@@ -41,13 +41,18 @@
 	
 		TreeViewer.prototype.Init = function ()
 		{
+			var myThis = this;
 			this.canvas = document.getElementById ('canvas');
-			this.viewer = TV.CreateCanvasViewer (this.canvas);
+			this.viewer = TV.CreateCanvasViewer (this.canvas, null, {
+				onNodeClick : function (node) {
+					if (node === aaa) {
+						var bbb = myThis.viewer.AddNode ({text:'BBB'}, aaa);
+						var ccc = myThis.viewer.AddNode ({text:'CCC'}, aaa);
+						myThis.viewer.Update ();
+					}
+				}
+			});
 			var aaa = this.viewer.AddNode ({text:'AAA'}, null);
-			var bbb = this.viewer.AddNode ({text:'BBB'}, aaa);
-			var ccc = this.viewer.AddNode ({text:'CCC'}, aaa);
-			var ddd = this.viewer.AddNode ({text:'DDD'}, bbb);
-			var eee = this.viewer.AddNode ({text:'EEE'}, bbb);
 			this.viewer.AutoAlign ();
 			this.viewer.Update ();
 		}
